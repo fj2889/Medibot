@@ -2,24 +2,67 @@
 import sample.jieba as jieba
 import sample.insuranceqa_data as insuranceqa
 import init
+import numpy as np
+import pandas as pd
+from multiprocessing.dummy import Pool as ThreadPool
+
 # from sklearn.feature_extraction.text import CountVectorizer
 
-# 加载停用词表
-stopwordset = init.load_stop_word(
-    ['dict/哈工大停用词表.txt', 'dict/中文停用词.txt'])
+
+dateset = init.dataset(splitsymbol='<POS>', stopword_files=[
+                       'dict/哈工大停用词表.txt', 'dict/中文停用词.txt'])
+
+# 初始化停用词表
+
 
 # 导入数据集(数据格式为字符串)
+print('导入数据集')
 pool_train_data = insuranceqa.load_pool_train()
 pool_test_data = insuranceqa.load_pool_test()
 pool_valid_data = insuranceqa.load_pool_valid()
 pool_answer_data = insuranceqa.load_pool_answers()
 
-# 分词
-seg_list = jieba.cut_for_search("小明硕士毕业于中国科学院计算所，后在日本京都大学深造")
+
+def pair_answer(question):
+    answerid = question["answers"]
+
+    def id2answer(id):
+        return pool_answer_data[id]['zh']
+    answer = list(map(id2answer, answerid))
+    result = ''.join(answer)
+    question['str_answer'] = result
+    return question
+
+
+# 创建线程池
+print('\n\n训练集分词')
+dateset.setbar(len(pool_train_data))
+pool = ThreadPool(4)
+pd_train_data = pool.map(pair_answer, pool_train_data.values())
+pd_train_data = pool.map(dateset.vectdata, pd_train_data)
+pd_train_data = pd.DataFrame(list(pd_train_data))
+pool.close()
+pool.join()
+
+print('\n\n测试集分词')
+pool = ThreadPool(4)
+dateset.setbar(len(pool_test_data))
+pd_test_data = pool.map(pair_answer, pool_test_data.values())
+pd_test_data = pool.map(dateset.vectdata, pd_test_data)
+pd_test_data = pd.DataFrame(list(pd_test_data))
+pool.close()
+pool.join()
+
+print('\n\nCV集分词')
+pool = ThreadPool(4)
+dateset.setbar(len(pool_valid_data))
+pd_valid_data = pool.map(pair_answer, pool_valid_data.values())
+pd_valid_data = pool.map(dateset.vectdata, pd_valid_data)
+pd_valid_data = pd.DataFrame(list(pd_valid_data))
+pool.close()
+pool.join()
 
 pass
-# 对句子去除停用词
-
 
 # 构建字典
 # count_vect = CountVectorizer()

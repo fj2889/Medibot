@@ -1,7 +1,7 @@
 # encoding=utf-8
 import sample.jieba as jieba
 import sample.insuranceqa_data as insuranceqa
-
+import logging
 
 # 导入数据格式为字符串
 # pool_train_data = insuranceqa.load_pool_train()
