@@ -3,7 +3,9 @@ import sample.jieba as jieba
 import sample.insuranceqa_data as insuranceqa
 import init
 import numpy as np
-import pandas as pd
+# import pandas as pd
+# 这个包快一点
+import ray.dataframe as pd
 from multiprocessing.dummy import Pool as ThreadPool
 
 # from sklearn.feature_extraction.text import CountVectorizer
