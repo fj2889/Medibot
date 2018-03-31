@@ -1,6 +1,0 @@
-*.swp
-*.swo
-node_modules
-*.pyc
-__pycache__
-_env
