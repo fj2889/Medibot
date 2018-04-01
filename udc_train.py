@@ -6,7 +6,7 @@ import udc_model
 import udc_hparams
 import udc_metrics
 import udc_inputs
-from dual_encoder import dual_encoder_model
+from models.dual_encoder import dual_encoder_model
 
 # 避免警告
 os.environ['tf CPP MIN LOG level'] = '2'
