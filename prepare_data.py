@@ -5,10 +5,10 @@ import sample.jieba as jieba
 import numpy as np
 import progressbar
 import csv
-import multiprocessing as mp
 from math import floor
 from contextlib import contextmanager
 import file_process as fp
+from hanziconv import HanziConv
 
 
 class Dataset():
@@ -18,9 +18,9 @@ class Dataset():
 
     _counter = 0
     _bar = progressbar.ProgressBar(maxval=100)
-    _raw_data = []
-    _word_data = []
-    _id_data = []
+    raw_data = []
+    word_data = []
+    id_data = []
     # _vec_data = []
     _data_len = 0
 
@@ -33,8 +33,8 @@ class Dataset():
     valid_data = []
     test_data = []
 
-    _id2vec_lookup_list = []
-    _word2id_lookup_list = {}
+    id2vec_lookup_list = []
+    word2id_lookup_list = {}
     # path
     _userdict = ''
 
@@ -51,30 +51,33 @@ class Dataset():
             self._userdict = user_dict
 
         # 加载词向量和id查找表
-        self._word2id_lookup_list = fp.load_obj(word2id_file)
-        length=len(self._word2id_lookup_list)
+        self.word2id_lookup_list = fp.load_obj(word2id_file)
+        length = len(self.word2id_lookup_list)
         self.id2vec_lookup_list = np.load(id2vec_file)
 
         # <unknown> : set values of vector as all 0
-        self._word2id_lookup_list.update({'<unknown>':length})
-        self.id2vec_lookup_list=np.append(self.id2vec_lookup_list,[np.zeros(300)],axis=0)
+        self.word2id_lookup_list.update({'<unknown>': length})
+        self.id2vec_lookup_list = np.append(
+            self.id2vec_lookup_list, [np.zeros(300)], axis=0)
+
+        jieba.load_userdict(self._userdict)
 
         # 导入数据集
         # 读取csv, 创建dataframe
         print('导入数据集')
         with open(filename, "r") as csvFile:
             reader = csv.reader(csvFile)
-            self._raw_data = [{'index': reader.line_num,
-                               'question': row[0], 'answer': row[1]} for row in reader]
+            self.raw_data = [{'index': reader.line_num,
+                              'question': row[0], 'answer': row[1]} for row in reader]
             csvFile.close()
-        self._data_len = len(self._raw_data)
+        self._data_len = len(self.raw_data)
 
         # 分词
         print('\n\n分词')
-        self._word_data = self.split_word(self._raw_data, '')
+        self.word_data = self.split_word(self.raw_data, '')
 
         # 切分数据集
-        self.split_data_set(prop, self._word_data, self._data_len)
+        self.split_data_set(prop, self.word_data, self._data_len)
 
     def split_data_set(self, prop, data, len):
         """
@@ -101,7 +104,7 @@ class Dataset():
     def split_word(self, data, log_info):
         # 设置进度条
         with self.prograssbar(len(data)):
-            return list(self.pool_map(self._split_data, data))
+            return list(fp.pool_map(self._split_data, data))
 
     def _split_data(self, data):
         """
@@ -126,12 +129,12 @@ class Dataset():
                 seg_question = self.movestopwords(seg_question)
                 seg_answer = self.movestopwords(seg_answer)
 
-            lookup=self._word2id_lookup_list
-            unknown_index=len(lookup)
+            lookup = self.word2id_lookup_list
+            unknown_index = len(lookup)
             id_question = list(
-                map(lambda x: lookup.get(x,unknown_index), seg_question))
+                map(lambda x: lookup.get(x, unknown_index), seg_question))
             id_answer = list(
-                map(lambda x: lookup.get(x,unknown_index), seg_answer))
+                map(lambda x: lookup.get(x, unknown_index), seg_answer))
 
             # id_question = self._word2id_lookup_list.get(
             #     seg_question)
@@ -183,16 +186,21 @@ class Dataset():
         yield
         self._bar.finish()
 
-    def pool_map(self, _map, _data):
-        '''
-        多线程map
-        '''
-        with mp.Pool(processes=(mp.cpu_count() - 1)) as pool:
-            return pool.map(_map, _data)
+    def chinese_tokenizer(self, documents):
+        for document in documents:
+            # 繁体转简体
+            text = HanziConv.toSimplified(document)
+            # 英文转小写
+            text = jieba.lcut(document)
+            # 去除停用词
+            if (self._stopwordset != []):
+                text = self.movestopwords(text)
+            # 分词
+            yield text
 
 
 if __name__ == "__main__":
-    dateset = Dataset(filename="corpus/corpus.csv",
+    dataset = Dataset(filename="corpus/corpus.csv",
                       splitsymbol='<POS>',
                       word2id_file='sample/word2vec/id2word.pkl',
                       id2vec_file='sample/word2vec/vec.npz.npy',
@@ -203,4 +211,4 @@ if __name__ == "__main__":
                           'dict/自定义停用词.txt'],
                       prop=[0.6, 0.2, 0.2])
 
-    fp.save_obj(dateset, 'save.pkl')
+    fp.save_obj(dataset, 'save.pkl')
