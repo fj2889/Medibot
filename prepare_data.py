@@ -1,16 +1,14 @@
 # =================================
 # using for initialize data sets
 # =================================
-# import pandas as pd
 import sample.jieba as jieba
 import numpy as np
 import progressbar
-import logging
 import csv
 import multiprocessing as mp
 from math import floor
 from contextlib import contextmanager
-import pickle
+import file_process as fp
 
 
 class Dataset():
@@ -36,25 +34,30 @@ class Dataset():
     test_data = []
 
     _id2vec_lookup_list = []
-    _word2id_lookup_list = []
+    _word2id_lookup_list = {}
     # path
     _userdict = ''
 
-    def __init__(self, *, filename, splitsymbol, word2id_file, id2vec_file, user_dict,  stopword_dict, prop):
+    def __init__(self, *, filename, splitsymbol, word2id_file, id2vec_file, user_dict, stopword_dict, prop):
         # ray.init(redis_address="127.0.0.1:35247")
         self._splitsymbol = splitsymbol
 
         # 初始化停用词表
-        if(stopword_dict != []):
+        if (stopword_dict != []):
             self.set_stopword(stopword_dict)
 
         # 初始化自定义词表
-        if(user_dict != []):
+        if (user_dict != []):
             self._userdict = user_dict
 
         # 加载词向量和id查找表
-        _word2id_lookup_list = self.load_obj(word2id_file)
-        _id2vec_lookup_list = np.load(id2vec_file)
+        self._word2id_lookup_list = fp.load_obj(word2id_file)
+        length=len(self._word2id_lookup_list)
+        self.id2vec_lookup_list = np.load(id2vec_file)
+
+        # <unknown> : set values of vector as all 0
+        self._word2id_lookup_list.update({'<unknown>':length})
+        self.id2vec_lookup_list=np.append(self.id2vec_lookup_list,[np.zeros(300)],axis=0)
 
         # 导入数据集
         # 读取csv, 创建dataframe
@@ -78,18 +81,18 @@ class Dataset():
         分配数据集
             :param self:
             :param prop:
-        """   # split data
+        """  # split data
         # split=[]
         _split_scope_sum = sum(prop)
-        _split_scope_1 = prop[0]/_split_scope_sum
-        _split_scope_2 = prop[1]/_split_scope_sum
+        _split_scope_1 = prop[0] / _split_scope_sum
+        _split_scope_2 = prop[1] / _split_scope_sum
 
         train_data_begin = 0
-        train_data_end = train_data_begin+floor(_split_scope_1*len)
-        valid_data_begin = train_data_end+1
-        valid_data_end = valid_data_begin+floor(_split_scope_2*len)
-        test_data_begin = valid_data_end+1
-        test_data_end = len-1
+        train_data_end = train_data_begin + floor(_split_scope_1 * len)
+        valid_data_begin = train_data_end
+        valid_data_end = valid_data_begin + floor(_split_scope_2 * len)
+        test_data_begin = valid_data_end
+        test_data_end = len
 
         self.train_data = data[train_data_begin:train_data_end]
         self.test_data = data[valid_data_begin:valid_data_end]
@@ -123,9 +126,17 @@ class Dataset():
                 seg_question = self.movestopwords(seg_question)
                 seg_answer = self.movestopwords(seg_answer)
 
-            # word2id
-            id_question = map(self._word2id_lookup_list.get, seg_question)
-            id_answer = map(self._word2id_lookup_list.get, seg_answer)
+            lookup=self._word2id_lookup_list
+            unknown_index=len(lookup)
+            id_question = list(
+                map(lambda x: lookup.get(x,unknown_index), seg_question))
+            id_answer = list(
+                map(lambda x: lookup.get(x,unknown_index), seg_answer))
+
+            # id_question = self._word2id_lookup_list.get(
+            #     seg_question)
+            # id_answer = self._word2id_lookup_list.get(
+            #     seg_answer)
 
             result = [data['index'], seg_question,
                       seg_answer, id_question, id_answer]
@@ -140,7 +151,8 @@ class Dataset():
         try:
             stopwords = ''
             for item in files:
-                stopwords = ''.join(stopwords + '\n' + self.readfile(item))
+                stopwords = ''.join(stopwords + '\n' +
+                                    fp.readfile(item))
             stopwordslist = stopwords.split('\n')
             not_stopword = set(['', '\n'])
             self._stopwordset = set(stopwordslist)
@@ -154,45 +166,14 @@ class Dataset():
         '''
         try:
             def is_stopwords(word):
-                if (word != '\t'and'\n') and (word not in self._stopwordset):
+                if (word != '\t' and '\n') and (word not in self._stopwordset):
                     return word and word.strip()
+
             res = list(filter(is_stopwords, sentence))
         except Exception as e:
             print(e)
 
         return res
-
-    def savefile(self, savepath, content):
-        '''
-        save files
-        '''
-        try:
-            fp = open(savepath, 'w', encoding='utf8', errors='ignore')
-            fp.write(content)
-            fp.close()
-        except Exception as e:
-            print(e)
-
-    def readfile(self, path):
-        '''
-        read files
-        '''
-        try:
-            fp = open(path, "r", encoding='utf8', errors='ignore')
-            content = fp.read()
-            fp.close()
-        except Exception as e:
-            print(e)
-
-        return content
-
-    def save_obj(self, obj, name):
-        with open(name, 'wb') as f:
-            pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
-
-    def load_obj(self, name):
-        with open(name, 'rb') as f:
-            return pickle.load(f)
 
     @contextmanager
     def prograssbar(self, maxvalue):
@@ -208,3 +189,18 @@ class Dataset():
         '''
         with mp.Pool(processes=(mp.cpu_count() - 1)) as pool:
             return pool.map(_map, _data)
+
+
+if __name__ == "__main__":
+    dateset = Dataset(filename="corpus/corpus.csv",
+                      splitsymbol='<POS>',
+                      word2id_file='sample/word2vec/id2word.pkl',
+                      id2vec_file='sample/word2vec/vec.npz.npy',
+                      user_dict="dict/自定义词典.txt",
+                      stopword_dict=[
+                          'dict/哈工大停用词表.txt',
+                          #    'dict/中文停用词.txt',
+                          'dict/自定义停用词.txt'],
+                      prop=[0.6, 0.2, 0.2])
+
+    fp.save_obj(dateset, 'save.pkl')
