@@ -2,16 +2,24 @@ import tensorflow as tf
 import numpy as np
 from models import helpers
 from models import model
+from make_data import Dataset  # 声明定义域
+import file_process as fp
 
 FLAGS = tf.flags.FLAGS
 
 
 def get_embeddings(hparams):
-    if hparams.glove_path and hparams.vocab_path:
+    if hparams.dataset_path and hparams.vocab_path:
         tf.logging.info("Loading Glove embeddings...")
+
         vocab_array, vocab_dict = helpers.load_vocab(hparams.vocab_path)
-        glove_vectors, glove_dict = helpers.load_glove_vectors(
-            hparams.glove_path, vocab=set(vocab_array))
+        # glove_vectors, glove_dict = helpers.load_glove_vectors(
+        #     hparams.glove_path, vocab=set(vocab_array))
+        dataset=Dataset()
+        dataset = fp.load_obj(hparams.dataset_path)
+        glove_vectors = dataset.word2id_lookup_list
+        glove_dict = dataset.id2vec_lookup_list
+
         initializer = helpers.build_initial_embedding_matrix(
             vocab_dict, glove_dict, glove_vectors, hparams.embedding_dim)
         return tf.get_variable(
@@ -75,8 +83,8 @@ def dual_encoder_model(
     print('encoding_utterence shape {}'.format(encoding_utterance))
     with tf.variable_scope("prediction"):
         M = tf.get_variable("M",
-                            shape = [encoding_context.get_shape()[1],
-                            encoding_context.get_shape()[1]],
+                            shape=[encoding_context.get_shape()[1],
+                                   encoding_context.get_shape()[1]],
                             initializer=tf.truncated_normal_initializer())
 
         # "Predict" a  response: c * M

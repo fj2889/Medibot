@@ -12,21 +12,7 @@ import tensorflow as tf
 import os
 from hanziconv import HanziConv
 import functools
-tf.flags.DEFINE_integer(
-    "min_word_frequency", 5, "Minimum frequency of words in the vocabulary")
 
-tf.flags.DEFINE_integer("max_sentence_len", 160, "Maximum Sentence Length")
-
-tf.flags.DEFINE_string(
-    "input_dir", os.path.abspath("./data"),
-    "Input directory containing original CSV data files (default = './data')")
-
-tf.flags.DEFINE_string(
-    "output_dir", os.path.abspath("./data"),
-    "Output directory for TFrEcord files (default = './data')")
-tf.flags.DEFINE_integer(
-    "distraction_num", 9,
-    "Output directory for TFrEcord files (default = './data')")
 FLAGS = tf.flags.FLAGS
 
 
@@ -71,10 +57,10 @@ class Dataset:
 
         # 加载词向量和id查找表
         self.word2id_lookup_list = fp.load_obj(word2id_file)
-        length = len(self.word2id_lookup_list)
         self.id2vec_lookup_list = np.load(id2vec_file)
 
         # <unknown> : set values of vector as all 0
+        length = len(self.word2id_lookup_list)
         self.word2id_lookup_list.update({'<unknown>': length})
         self.id2vec_lookup_list = np.append(
             self.id2vec_lookup_list, [np.zeros(300)], axis=0)
@@ -375,5 +361,7 @@ if __name__ == "__main__":
                                   output_filename=os.path.join(
                                       FLAGS.output_dir, "train.tfrecords"),
                                   example_fn=functools.partial(dataset.create_example_train, vocab=vocab))
+
+    fp.save_obj(dataset, './data/dataset.pkl')
 
     pass

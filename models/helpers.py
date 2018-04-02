@@ -32,7 +32,8 @@ def load_glove_vectors(filename, vocab):
     word_dim = len(entries)
     num_vectors = len(dct)
     tf.logging.info("Found {} out of {} vectors in Glove".format(num_vectors, len(vocab)))
-    return [np.array(vectors).reshape(num_vectors, word_dim), dct]
+    vec=np.array(vectors).reshape(num_vectors, word_dim)
+    return [vec, dct]
 
 
 def build_initial_embedding_matrix(vocab_dict, glove_dict, glove_vectors, embedding_dim):
