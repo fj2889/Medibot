@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ad3cf0f31e59a858d47b07c8dacee6689ea3376368dcc0e8765fa31fd3cea786
-size 46
+sample/word2vec/source/
+runs/
+sample/word2vec/
+data/
