@@ -4,10 +4,10 @@ import itertools
 import sys
 import numpy as np
 import tensorflow as tf
-import udc_model
-import udc_hparams
-import udc_metrics
-import udc_inputs
+import zh_model
+import zh_hparams
+import zh_metrics
+import zh_inputs
 from models.dual_encoder import dual_encoder_model
 from models.helpers import load_vocab
 
@@ -44,8 +44,8 @@ def get_features(context, utterance):
   return features, None
 
 if __name__ == "__main__":
-  hparams = udc_hparams.create_hparams()
-  model_fn = udc_model.create_model_fn(hparams, model_impl=dual_encoder_model)
+  hparams = zh_hparams.create_hparams()
+  model_fn = zh_model.create_model_fn(hparams, model_impl=dual_encoder_model)
   estimator = tf.contrib.learn.Estimator(model_fn=model_fn, model_dir=FLAGS.model_dir)
 
   # Ugly hack, seems to be a bug in Tensorflow

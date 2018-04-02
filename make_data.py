@@ -128,14 +128,14 @@ class Dataset:
 
         # add neg sample into training data
         def map_train_data(data):
-            data['label'] = 1
+            data['label'] = 0
             return data
 
         pos_train_data = list(map(map_train_data, self.train_data))
         neg_utterance = list(
             map(map_neg_utterance, self.train_data))
         neg_train_data = [{
-            'question': self.train_data[i]['question'], 'answer': neg_utterance[i], 'label': 0} for i in range(len(self.train_data))]
+            'question': self.train_data[i]['question'], 'answer': neg_utterance[i], 'label': 1} for i in range(len(self.train_data))]
         self.train_data = pos_train_data + neg_train_data
 
         # Distractor sequences
