@@ -1,0 +1,4 @@
+63ab513b1d32d2a2f2162ccafa620062ade89fca,DELETE,regular-file,bfg.jar,13465496,
+eb479cd673d36a762eeb0cd7ea67026e7073755a,DELETE,regular-file,data/glove.6B.100d.txt,347116733,
+3d4e690af2643b4b0a8943dd1e925db63ab179d8,DELETE,regular-file,data/word2vec.npz.npy,136132389,
+e6e7cd5232f13e81ed097e683250976ab670f39b,DELETE,regular-file,sample/word2vec/vec.npz.npy,60121328,
