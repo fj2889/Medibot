@@ -50,4 +50,4 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
         route[i] = state
         state = mem_path[i][state]
         i -= 1
-    return (prob, route)
+    return prob, route

@@ -5,19 +5,21 @@ def get_id_feature(features, key, len_key, max_len):
   ids = features[key]
   ids_len = tf.squeeze(features[len_key], [1])             #???
   ids_len = tf.minimum(ids_len, tf.constant(max_len, dtype=tf.int64))
-  return ids, ids_len
+  return ids, ids_len#feature本来保存的就是下标，代表单词在的序号
 
 def create_train_op(loss, hparams):
   train_op = tf.contrib.layers.optimize_loss(
       loss=loss,
-      global_step=tf.contrib.framework.get_global_step(),
+      global_step=tf.train.get_global_step(),
       learning_rate=hparams.learning_rate,
       clip_gradients=10.0,
       optimizer=hparams.optimizer)
   return train_op
 
 
-def create_model_fn(hparams, model_impl):
+def create_model_fn(hparams, model_impl,model_fun,
+    RNNInit,
+    isBiDirection=False):
 
   def model_fn(features, targets, mode):          #estimator自己传的参数
     context, context_len = get_id_feature(
@@ -36,7 +38,10 @@ def create_model_fn(hparams, model_impl):
           context_len,
           utterance,
           utterance_len,
-          targets)
+          targets,
+          model_fun,
+          RNNInit,
+          isBiDirection)
       train_op = create_train_op(loss, hparams)
       return probs, loss, train_op
 
@@ -48,7 +53,9 @@ def create_model_fn(hparams, model_impl):
           context_len,
           utterance,
           utterance_len,
-          None)
+          None,model_fun,
+        RNNInit,
+        isBiDirection)
       return probs, 0.0, None
 
     if mode == tf.contrib.learn.ModeKeys.EVAL:
@@ -80,7 +87,9 @@ def create_model_fn(hparams, model_impl):
           tf.concat(all_context_lens, 0),
           tf.concat(all_utterances, 0),
           tf.concat(all_utterance_lens, 0),
-          tf.concat(all_targets, 0))
+          tf.concat(all_targets, 0),model_fun,
+            RNNInit,
+            isBiDirection)
 
       split_probs = tf.split(probs, 10, 0)
       shaped_probs = tf.concat(split_probs, 1)

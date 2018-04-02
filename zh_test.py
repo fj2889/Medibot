@@ -35,9 +35,5 @@ if __name__ == "__main__":
     batch_size=FLAGS.test_batch_size,
     num_epochs=1)
 
-  # eval_metrics = udc_metrics.create_evaluation_metrics()
-  eval_metrics = tf.contrib.learn.MetricSpec(
-            metric_fn=tf.contrib.metrics.streaming_recall,
-            prediction_key=tf.contrib.learn.prediction_key.PredictionKey.
-            CLASSES)
+  eval_metrics = zh_metrics.create_evaluation_metrics()
   estimator.evaluate(input_fn=input_fn_test, steps=None, metrics=eval_metrics)

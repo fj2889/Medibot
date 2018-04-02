@@ -191,7 +191,7 @@ class Dataset:
             # 英文转小写
             text = jieba.lcut(text)
             # 去除停用词
-            if self._stopwordset != []:
+            if self._stopwordset:
                 text = self.movestopwords(text)
             # 分词
             yield text

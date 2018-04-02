@@ -7,15 +7,16 @@ import zh_hparams
 import zh_metrics
 import zh_inputs
 from models.dual_encoder import dual_encoder_model
+from tensorflow.contrib.learn import Estimator
+from models import model
+import functools
 
-# 避免警告
-os.environ['tf CPP MIN LOG level']= '2'
-
+#/data文件夹
 tf.flags.DEFINE_string("input_dir", "./data", "Directory containing input data files 'train.tfrecords' and 'validation.tfrecords'")
 tf.flags.DEFINE_string("model_dir", None, "Directory to store model checkpoints (defaults to ./runs)")
 tf.flags.DEFINE_integer("loglevel", 20, "Tensorflow log level")
 tf.flags.DEFINE_integer("num_epochs", None, "Number of training Epochs. Defaults to indefinite.")
-tf.flags.DEFINE_integer("eval_every", 100, "Evaluate after this many train steps")
+tf.flags.DEFINE_integer("eval_every", 2000, "Evaluate after this many train steps")
 FLAGS = tf.flags.FLAGS
 
 TIMESTAMP = int(time.time())
@@ -32,16 +33,20 @@ tf.logging.set_verbosity(FLAGS.loglevel)
 
 def main(unused_argv):
   hparams = zh_hparams.create_hparams()
-
+  #model_fun=[2,3,4,5],30
   model_fn = zh_model.create_model_fn(
     hparams,
-    model_impl=dual_encoder_model)
+    model_impl=dual_encoder_model,
+    #model_fun=functools.partial(model.RNN_CNN_MaxPooling,filtersizes=[2,3,4,5],num_filters=30),
+    model_fun=model.RNN_CNN_MaxPooling,
+    RNNInit=tf.nn.rnn_cell.LSTMCell,
+    isBiDirection=True)
 
-  estimator = tf.contrib.learn.Estimator(
+  estimator = Estimator(
     model_fn=model_fn,
     model_dir=MODEL_DIR,
-    config=tf.contrib.learn.RunConfig(save_checkpoints_secs=1))
-
+    config=tf.contrib.learn.RunConfig())
+  #tf.contrib.learn.RunConfig()
   input_fn_train = zh_inputs.create_input_fn(
     mode=tf.contrib.learn.ModeKeys.TRAIN,
     input_files=[TRAIN_FILE],
@@ -55,23 +60,16 @@ def main(unused_argv):
     num_epochs=1)
 
   eval_metrics = zh_metrics.create_evaluation_metrics()
-  
+
   eval_monitor = tf.contrib.learn.monitors.ValidationMonitor(
         input_fn=input_fn_eval,
         every_n_steps=FLAGS.eval_every,
-        # TODO
-        # every_n_steps
-        # 评估监视器
-        # validation_monitor = tf.contrib.learn.monitors.ValidationMonitor(
-        #     test_set.data,
-        #     test_set.target,
-        #     every_n_steps=50,
-        #     metrics=validation_metrics)
-        metrics=eval_metrics)
+        metrics=eval_metrics)#喂数据
 
-  estimator.fit(input_fn=input_fn_train,
-                steps=None,
-                monitors=[eval_monitor])
+
+  estimator.fit(input_fn=input_fn_train, steps=None, monitors=[eval_monitor])
+
+
 
 if __name__ == "__main__":
   tf.app.run()
