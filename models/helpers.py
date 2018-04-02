@@ -2,6 +2,7 @@ import array
 import numpy as np
 import tensorflow as tf
 from collections import defaultdict
+import file_process as fp
 
 
 def load_vocab(filename):
@@ -38,13 +39,17 @@ def load_glove_vectors(filename, vocab):
     tf.logging.info("Found {} out of {} vectors in Glove".format(
         num_vectors, len(vocab)))
     vec = np.array(vectors).reshape(num_vectors, word_dim)
+    np.save('./data/vec', vec)
+    np.save('./data/dct', dct)
     return [vec, dct]
 
 
 def build_initial_embedding_matrix(vocab_dict, glove_dict, glove_vectors, embedding_dim):
     initial_embeddings = np.random.uniform(
         -0.25, 0.25, (len(vocab_dict), embedding_dim)).astype("float32")  # 二维
+
     for word, glove_word_idx in glove_dict.items():
         word_idx = vocab_dict.get(word)
         initial_embeddings[word_idx, :] = glove_vectors[glove_word_idx]
+
     return initial_embeddings

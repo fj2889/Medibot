@@ -4,11 +4,11 @@ import itertools
 import sys
 import numpy as np
 import tensorflow as tf
-import zh_model
-import zh_hparams
-import zh_metrics
-import zh_inputs
-from models.dual_encoder import dual_encoder_model
+import cn_model
+import cn_hparams
+import cn_metrics
+import cn_inputs
+from models.model import dual_encoder_model
 from models.helpers import load_vocab
 
 tf.flags.DEFINE_string("model_dir", None, "Directory to load model checkpoints from")
@@ -44,8 +44,8 @@ def get_features(context, utterance):
   return features, None
 
 if __name__ == "__main__":
-  hparams = zh_hparams.create_hparams()
-  model_fn = zh_model.create_model_fn(hparams, model_impl=dual_encoder_model)
+  hparams = cn_hparams.create_hparams()
+  model_fn = cn_model.create_model_fn(hparams, model_impl=dual_encoder_model)
   estimator = tf.contrib.learn.Estimator(model_fn=model_fn, model_dir=FLAGS.model_dir)
 
   # Ugly hack, seems to be a bug in Tensorflow
