@@ -37,3 +37,9 @@ vec = np.array(vec, dtype='float32')
 
 save_obj(id2word, 'sample/word2vec/id2word.pkl')
 np.save('sample/word2vec/vec.npz', vec)
+
+
+word2vec = [[str(data[1])] + [float(x) for x in data[2:]]
+            for data in filecontents if(len(data) != 0)]
+word2vec = pd.DataFrame(word2vec)
+np.save('data/word2vec.npz', word2vec)

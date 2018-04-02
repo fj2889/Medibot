@@ -11,6 +11,8 @@ from tensorflow.contrib.learn import Estimator
 from models import model
 import functools
 
+import make_data
+from make_data import Dataset  # 声明定义域
 
 FLAGS = tf.flags.FLAGS
 

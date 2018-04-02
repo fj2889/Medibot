@@ -16,7 +16,7 @@ import functools
 FLAGS = tf.flags.FLAGS
 
 
-class Dataset:
+class Dataset():
     # private data
     _stopwordset = ''
     _splitsymbol = ''

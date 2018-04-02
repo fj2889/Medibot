@@ -8,7 +8,7 @@ tf.flags.DEFINE_integer(
     91620,
     "The size of the vocabulary. Only change this if you changed the preprocessing")
 # Model Parameters
-tf.flags.DEFINE_integer("embedding_dim", 100,
+tf.flags.DEFINE_integer("embedding_dim", 300,
                         "Dimensionality of the embeddings")
 tf.flags.DEFINE_integer("rnn_dim", 256, "Dimensionality of the RNN cell")
 tf.flags.DEFINE_integer("max_context_len", 160,
@@ -19,11 +19,12 @@ tf.flags.DEFINE_integer("max_utterance_len", 80,
 # Pre-trained embeddings
 # "./data/glove.6B.100d.txt"
 # ./data/vocabulary.txt
-# tf.flags.DEFINE_string("glove_path", './data/glove.6B.100d.txt', "Path to pre-trained Glove vectors")
+tf.flags.DEFINE_string("glove_path", './data/glove.6B.100d.txt',
+                       "Path to pre-trained Glove vectors")
 tf.flags.DEFINE_string("vocab_path", './data/vocabulary.txt',
                        "Path to vocabulary.txt file")
 tf.flags.DEFINE_string(
-    "dataset_path", './data/dataset.pkl', "Path to dataset.pkl file")
+    "dataset_path", 'data/word2vec.npz.npy', "Path to dataset.pkl file")
 
 # Training Parameters
 tf.flags.DEFINE_float("learning_rate", 0.001, "Learning rate")
@@ -76,7 +77,7 @@ HParams = namedtuple(
         "optimizer",
         "rnn_dim",
         "vocab_size",
-        # "glove_path",
+        "glove_path",
         "vocab_path",
         "dataset_path",
 
@@ -93,7 +94,7 @@ def create_hparams():
         embedding_dim=FLAGS.embedding_dim,
         max_context_len=FLAGS.max_context_len,
         max_utterance_len=FLAGS.max_utterance_len,
-        # glove_path=FLAGS.glove_path,
+        glove_path=FLAGS.glove_path,
         vocab_path=FLAGS.vocab_path,
         dataset_path=FLAGS.dataset_path,
         rnn_dim=FLAGS.rnn_dim)

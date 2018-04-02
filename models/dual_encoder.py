@@ -2,8 +2,10 @@ import tensorflow as tf
 import numpy as np
 from models import helpers
 from models import model
+import make_data
 from make_data import Dataset  # 声明定义域
-import file_process as fp
+import pickle
+# import file_process as fp
 
 FLAGS = tf.flags.FLAGS
 
@@ -13,12 +15,10 @@ def get_embeddings(hparams):
         tf.logging.info("Loading Glove embeddings...")
 
         vocab_array, vocab_dict = helpers.load_vocab(hparams.vocab_path)
-        # glove_vectors, glove_dict = helpers.load_glove_vectors(
-        #     hparams.glove_path, vocab=set(vocab_array))
-        dataset=Dataset()
-        dataset = fp.load_obj(hparams.dataset_path)
-        glove_vectors = dataset.word2id_lookup_list
-        glove_dict = dataset.id2vec_lookup_list
+        # glove_vectors ndarray
+        # glove_dict dict
+        glove_vectors, glove_dict = helpers.load_glove_vectors(
+            hparams.dataset_path, vocab=set(vocab_array))
 
         initializer = helpers.build_initial_embedding_matrix(
             vocab_dict, glove_dict, glove_vectors, hparams.embedding_dim)

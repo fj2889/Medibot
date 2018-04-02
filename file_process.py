@@ -3,7 +3,6 @@
 # =================================
 import pickle
 import multiprocessing
-# from make_data import Dataset # 声明定义域
 
 def savefile(savepath, content):
     '''
