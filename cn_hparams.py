@@ -38,7 +38,7 @@ tf.flags.DEFINE_string("optimizer", "Adam",
 tf.flags.DEFINE_string("input_dir", "./data",
                        "Directory containing input data files 'train.tfrecords' and 'validation.tfrecords'")
 tf.flags.DEFINE_string(
-    "model_dir", None, "Directory to store model checkpoints (defaults to ./runs)")
+    "model_dir", 'run/data', "Directory to store model checkpoints (defaults to ./runs)")
 tf.flags.DEFINE_integer("loglevel", 20, "Tensorflow log level")
 tf.flags.DEFINE_integer(
     "num_epochs", None, "Number of training Epochs. Defaults to indefinite.")
