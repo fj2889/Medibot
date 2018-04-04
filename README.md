@@ -1,5 +1,9 @@
 # Chatbot
 
+## 数据文件地址
+
+https://pan.baidu.com/s/1e0R1ZDrkQ6YURuOM9e1Y2A
+
 ## 如何安装依赖
 
 在 Pycharm 集成环境中直接安装
