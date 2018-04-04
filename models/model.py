@@ -301,14 +301,14 @@ def RNN_Attention(RNN_Init,
 
 
 def get_embeddings(hparams):
-    if hparams.dataset_path and hparams.vocab_path:
+    if hparams.word2vec_path and hparams.vocab_path:
         tf.logging.info("Loading Glove embeddings...")
 
         vocab_array, vocab_dict = helpers.load_vocab(hparams.vocab_path)
         # glove_vectors ndarray
         # glove_dict dict
         glove_vectors, glove_dict = helpers.load_glove_vectors(
-            hparams.dataset_path, vocab=set(vocab_array))
+            hparams.word2vec_path, vocab=set(vocab_array))
 
         initializer = helpers.build_initial_embedding_matrix(
             vocab_dict, glove_dict, glove_vectors, hparams.embedding_dim)

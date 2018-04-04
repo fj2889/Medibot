@@ -1,7 +1,9 @@
-sample/word2vec/source/
-runs/
-data/
-data/
+run/*
+run/
+run
+bigdata/
 *.bin
-*.tfrecords
-*.csv
+*.meta
+*.index
+*.data*
+*.local

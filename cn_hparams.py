@@ -24,7 +24,7 @@ tf.flags.DEFINE_string("glove_path", './data/glove.6B.100d.txt',
 tf.flags.DEFINE_string("vocab_path", './data/vocabulary.txt',
                        "Path to vocabulary.txt file")
 tf.flags.DEFINE_string(
-    "dataset_path", 'data/word2vec.npz.npy', "Path to dataset.pkl file")
+    "word2vec_path", 'word2vec/word2vec.npy', "Path to dataset.pkl file")
 
 # Training Parameters
 tf.flags.DEFINE_float("learning_rate", 0.001, "Learning rate")
@@ -79,7 +79,7 @@ HParams = namedtuple(
         "vocab_size",
         "glove_path",
         "vocab_path",
-        "dataset_path",
+        "word2vec_path",
 
     ])
 
@@ -96,5 +96,5 @@ def create_hparams():
         max_utterance_len=FLAGS.max_utterance_len,
         glove_path=FLAGS.glove_path,
         vocab_path=FLAGS.vocab_path,
-        dataset_path=FLAGS.dataset_path,
+        word2vec_path=FLAGS.word2vec_path,
         rnn_dim=FLAGS.rnn_dim)

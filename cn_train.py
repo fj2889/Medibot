@@ -1,6 +1,5 @@
 import os
 import time
-import itertools
 import tensorflow as tf
 import cn_model
 import cn_hparams

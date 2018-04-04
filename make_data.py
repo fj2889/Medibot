@@ -1,17 +1,18 @@
 # =================================
 # using for initialize data sets
 # =================================
-import sample.jieba as jieba
+import jieba
 import numpy as np
 import progressbar
 import csv
 from math import floor
-import pandas as pd
 import file_process as fp
+from file_process import pool_map as map
 import tensorflow as tf
 import os
 from hanziconv import HanziConv
 import functools
+import cn_hparams
 
 FLAGS = tf.flags.FLAGS
 
@@ -19,14 +20,10 @@ FLAGS = tf.flags.FLAGS
 class Dataset():
     # private data
     _stopwordset = ''
-    _splitsymbol = ''
 
     _counter = 0
-    _bar = progressbar.ProgressBar(maxval=100)
+    _bar = progressbar.ProgressBar(max_value=100)
     raw_data = []
-    # word_data = []
-    # id_data = []
-    # _vec_data = []
     _data_len = 0
 
     _split_scope_sum = 0
@@ -43,10 +40,7 @@ class Dataset():
     # path
     _userdict = ''
 
-    def __init__(self, *, filename, splitsymbol, word2id_file, id2vec_file, user_dict, stopword_dict, prop):
-        # ray.init(redis_address="127.0.0.1:35247")
-        self._splitsymbol = splitsymbol
-
+    def __init__(self, *, filename,  user_dict, stopword_dict, prop):
         # 初始化停用词表
         if stopword_dict is not []:
             self.set_stopword(stopword_dict)
@@ -55,15 +49,15 @@ class Dataset():
         if user_dict is not []:
             self._userdict = user_dict
 
-        # 加载词向量和id查找表
-        self.word2id_lookup_list = fp.load_obj(word2id_file)
-        self.id2vec_lookup_list = np.load(id2vec_file)
+        # # 加载词向量和id查找表
+        # self.word2id_lookup_list = fp.load_obj(word2id_file)
+        # self.id2vec_lookup_list = np.load(id2vec_file)
 
-        # <unknown> : set values of vector as all 0
-        length = len(self.word2id_lookup_list)
-        self.word2id_lookup_list.update({'<unknown>': length})
-        self.id2vec_lookup_list = np.append(
-            self.id2vec_lookup_list, [np.zeros(300)], axis=0)
+        # # <unknown> : set values of vector as all 0
+        # length = len(self.word2id_lookup_list)
+        # self.word2id_lookup_list.update({'<unknown>': length})
+        # self.id2vec_lookup_list = np.append(
+        #     self.id2vec_lookup_list, [np.zeros(300)], axis=0)
 
         jieba.load_userdict(self._userdict)
 
@@ -83,10 +77,7 @@ class Dataset():
     def split_data_set(self, prop, data, length):
         """
         分配数据集
-            :param self:
-            :param prop:
-        """  # split data
-        # split=[]
+        """
         self._split_scope_sum = sum(prop)
         self._split_scope_1 = prop[0] / self._split_scope_sum
         self._split_scope_2 = prop[1] / self._split_scope_sum
@@ -105,7 +96,7 @@ class Dataset():
         def map_neg_utterance(i):
             try:
                 utterance_index = np.random.random_integers(
-                    1, length)  # 避免撞上自己
+                    1, length)+i  # 避免撞上自己
                 utterance_index = utterance_index % length
                 utterance = self.raw_data[utterance_index]['answer']
                 return utterance
@@ -119,7 +110,7 @@ class Dataset():
 
         pos_train_data = list(map(map_train_data, self.train_data))
         neg_utterance = list(
-            map(map_neg_utterance, self.train_data))
+            map(map_neg_utterance, range(len(self.train_data))))
         neg_train_data = [{
             'question': self.train_data[i]['question'], 'answer': neg_utterance[i], 'label': 1} for i in range(len(self.train_data))]
         self.train_data = pos_train_data + neg_train_data
@@ -174,12 +165,11 @@ class Dataset():
         for document in documents:
             # 繁体转简体
             text = HanziConv.toSimplified(document)
-            # 英文转小写
+            # 分词
             text = jieba.lcut(text)
             # 去除停用词
             if self._stopwordset:
                 text = self.movestopwords(text)
-            # 分词
             yield text
 
     def create_csv_iter(self, filename):
@@ -313,19 +303,11 @@ class Dataset():
 
 if __name__ == "__main__":
     dataset = Dataset(filename="corpus/corpus.csv",
-                      splitsymbol='<POS>',
-                      word2id_file='sample/word2vec/id2word.pkl',
-                      id2vec_file='sample/word2vec/vec.npz.npy',
                       user_dict="dict/自定义词典.txt",
                       stopword_dict=[
                           'dict/哈工大停用词表.txt',
-                          #    'dict/中文停用词.txt',
                           'dict/自定义停用词.txt'],
                       prop=[0.6, 0.2, 0.2])
-
-    # fp.save_obj(dataset, 'save.pkl')
-    # print("Read Dataset...")
-    # dataset = TF_Dataset(pkl_filename='save.pkl')
 
     print("Creating vocabulary...")
     input_iter = [x['question']+' '+x['answer'] for x in dataset.raw_data]
