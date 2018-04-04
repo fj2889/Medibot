@@ -1,0 +1,6 @@
+progressbar2
+jieba
+tensorflow
+pandas
+numpy
+hanziconv
