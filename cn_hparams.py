@@ -5,7 +5,7 @@ from collections import namedtuple
 # Model Parameters
 tf.flags.DEFINE_integer(
     "vocab_size",
-    91620,
+    3398,
     "The size of the vocabulary. Only change this if you changed the preprocessing")
 # Model Parameters
 tf.flags.DEFINE_integer("embedding_dim", 300,

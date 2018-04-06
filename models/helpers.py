@@ -7,7 +7,7 @@ import file_process as fp
 
 def load_vocab(filename):
     vocab = None
-    with open(filename, encoding='UTF-8') as f:
+    with open(filename) as f:
         vocab = f.read().splitlines()
     dct = defaultdict(int)
     for idx, word in enumerate(vocab):

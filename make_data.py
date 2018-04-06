@@ -7,7 +7,7 @@ import progressbar
 import csv
 from math import floor
 import file_process as fp
-from file_process import pool_map as map
+# from file_process import pool_map as map
 import tensorflow as tf
 import os
 from hanziconv import HanziConv
@@ -54,7 +54,7 @@ class Dataset():
         # 导入数据集
         # 读取csv, 创建dataframe
         print('导入数据集')
-        with open(filename, "r") as csvFile:
+        with open(filename, "r", encoding="UTF-8") as csvFile:
             reader = csv.reader(csvFile)
             self.raw_data = [{
                 'question': row[0], 'answer': row[1]} for row in reader if len(row[0])!=0]
@@ -272,7 +272,7 @@ class Dataset():
         with tf.python_io.TFRecordWriter(output_filename) as writer:
             print("Creating TFRecords file at {}...".format(output_filename))
 
-            examples = fp.pool_map(lambda row: example_fn(
+            examples = map(lambda row: example_fn(
                 row).SerializeToString(), data)
 
             print("Wrote to {}".format(output_filename))
