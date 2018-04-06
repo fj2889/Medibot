@@ -39,8 +39,8 @@ def load_glove_vectors(filename, vocab):
     tf.logging.info("Found {} out of {} vectors in Glove".format(
         num_vectors, len(vocab)))
     vec = np.array(vectors).reshape(num_vectors, word_dim)
-    np.save('./data/vec', vec)
-    np.save('./data/dct', dct)
+    # np.save('./data/vec', vec)
+    # np.save('./data/dct', dct)
     return [vec, dct]
 
 

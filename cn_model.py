@@ -69,7 +69,7 @@ def create_model_fn(hparams, model_impl, model_fun,
             all_utterance_lens = [utterance_len]
             all_targets = [tf.ones([batch_size, 1], dtype=tf.int64)]
 
-            def _map(i):
+            for i in range(9):
                 distractor, distractor_len = get_id_feature(features,
                                                             "distractor_{}".format(
                                                                 i),
@@ -84,7 +84,7 @@ def create_model_fn(hparams, model_impl, model_fun,
                     tf.zeros([batch_size, 1], dtype=tf.int64)
                 )
 
-            tf.map_fn(_map, range(9))
+            # list(map(_map, ))
 
             probs, loss = model_impl(
                 hparams,

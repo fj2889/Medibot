@@ -31,7 +31,6 @@ def main(unused_argv):
     model_fn = cn_model.create_model_fn(
         hparams,
         model_impl=dual_encoder_model,
-        # model_fun=functools.partial(model.RNN_CNN_MaxPooling,filtersizes=[2,3,4,5],num_filters=30),
         model_fun=model.RNN_CNN_MaxPooling,
         RNNInit=tf.nn.rnn_cell.LSTMCell,
         is_bidirection=True)

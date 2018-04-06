@@ -23,9 +23,9 @@
     <SUITE FILE_PATH="coverage/Chatbot_code$make_wordvec.coverage" NAME="make_wordvec Coverage Results" MODIFIED="1522659472835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Chatbot_code$setup.coverage" NAME="setup Coverage Results" MODIFIED="1522598140603" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Chatbot_code$prepare_data.coverage" NAME="prepare_data Coverage Results" MODIFIED="1522598208718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Chatbot_code$udc_train.coverage" NAME="udc_train Coverage Results" MODIFIED="1522810545609" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Chatbot_code$udc_train.coverage" NAME="udc_train Coverage Results" MODIFIED="1523001928106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Chatbot_code$train.coverage" NAME="train Coverage Results" MODIFIED="1522634907404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Chatbot_code$make_data.coverage" NAME="make_data Coverage Results" MODIFIED="1522809908493" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Chatbot_code$make_data.coverage" NAME="make_data Coverage Results" MODIFIED="1523001887447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Chatbot_code$Spider.coverage" NAME="Spider Coverage Results" MODIFIED="1522777400337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/corpus" />
     <SUITE FILE_PATH="coverage/Chatbot_code$make_wordvec__1_.coverage" NAME="make_wordvec (1) Coverage Results" MODIFIED="1522808658602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wordvec" />
   </component>
@@ -34,17 +34,11 @@
       <file leaf-file-name="cn_train.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cn_train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="helpers.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/helpers.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="25" column="12" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="12" />
+            <state relative-caret-position="437">
+              <caret line="23" selection-start-line="23" selection-end-line="23" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -52,8 +46,8 @@
       <file leaf-file-name="cn_hparams.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cn_hparams.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="81" column="22" selection-start-line="81" selection-start-column="22" selection-end-line="81" selection-end-column="22" />
+            <state relative-caret-position="359">
+              <caret line="45" column="19" selection-start-line="45" selection-start-column="19" selection-end-line="45" selection-end-column="19" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -61,13 +55,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="model.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="319" column="33" selection-start-line="319" selection-start-column="33" selection-end-line="319" selection-end-column="33" />
+            <state relative-caret-position="403">
+              <caret line="386" column="26" selection-start-line="386" selection-start-column="26" selection-end-line="386" selection-end-column="26" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="file_process.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/file_process.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-119">
+              <caret line="23" column="36" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
+              <folding>
+                <element signature="e#101#114#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -76,8 +82,20 @@
       <file leaf-file-name="cn_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cn_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="45" selection-start-line="45" selection-end-line="45" />
+            <state relative-caret-position="802">
+              <caret line="112" column="19" selection-start-line="112" selection-start-column="19" selection-end-line="112" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="make_data.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/make_data.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="256">
+              <caret line="217" column="36" lean-forward="true" selection-start-line="217" selection-start-column="36" selection-end-line="217" selection-end-column="36" />
+              <folding>
+                <element signature="e#105#117#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -107,17 +125,19 @@
         <option value="$PROJECT_DIR$/udc_test.py" />
         <option value="$PROJECT_DIR$/zh_train.py" />
         <option value="$PROJECT_DIR$/make_wordvec.py" />
-        <option value="$PROJECT_DIR$/file_process.py" />
         <option value="$PROJECT_DIR$/zh_hparams.py" />
-        <option value="$PROJECT_DIR$/models/helpers.py" />
         <option value="$PROJECT_DIR$/zh_model.py" />
         <option value="$PROJECT_DIR$/models/dual_encoder.py" />
         <option value="$PROJECT_DIR$/corpus/Spider.py" />
         <option value="$PROJECT_DIR$/wordvec/make_wordvec.py" />
+        <option value="$PROJECT_DIR$/models/model.py" />
+        <option value="$PROJECT_DIR$/models/helpers.py" />
         <option value="$PROJECT_DIR$/cn_train.py" />
+        <option value="$PROJECT_DIR$/cn_metrics.py" />
+        <option value="$PROJECT_DIR$/cn_model.py" />
+        <option value="$PROJECT_DIR$/file_process.py" />
         <option value="$PROJECT_DIR$/make_data.py" />
         <option value="$PROJECT_DIR$/cn_hparams.py" />
-        <option value="$PROJECT_DIR$/models/model.py" />
       </list>
     </option>
   </component>
@@ -138,9 +158,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="x" value="-101" />
+    <option name="y" value="-1080" />
     <option name="width" value="1920" />
-    <option name="height" value="1200" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -150,6 +172,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -181,7 +204,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -354,22 +376,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1680" height="1050" extended-state="6" />
+    <frame x="-101" y="-1080" width="1920" height="1080" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21245421" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18743344" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.32983193" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.32983193" />
-      <window_info anchor="bottom" id="Run" order="3" weight="0.31512606" />
+      <window_info active="true" anchor="bottom" id="Run" order="3" visible="true" weight="0.42769858" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.32878152" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32878152" />
       <window_info anchor="right" x="0" y="22" width="1680" height="1028" id="SciView" order="4" type="WINDOWED" weight="0.42225772" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.32878152" />
-      <window_info anchor="bottom" x="-101" y="-1058" width="1920" height="1058" id="Debug" order="4" type="FLOATING" weight="0.33193278" />
+      <window_info anchor="bottom" x="-101" y="-1058" width="1920" height="1058" id="Debug" order="4" weight="0.46843177" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Concurrent Activities Diagram" order="14" visible="true" weight="0.32983193" />
+      <window_info anchor="right" id="Coverage" order="3" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
@@ -381,34 +402,35 @@
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
-      <window_info anchor="right" id="Coverage" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="2" weight="0.32983193" />
+      <window_info active="true" anchor="bottom" id="Concurrent Activities Diagram" order="14" visible="true" weight="0.32983193" />
     </layout>
     <layout-to-restore>
-      <window_info anchor="right" x="0" y="0" width="430" height="1000" id="Documentation" order="6" side_tool="true" weight="0.39882854" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.32983193" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21001221" />
       <window_info anchor="bottom" id="Run" order="3" weight="0.30987394" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="right" x="0" y="22" width="1680" height="1028" id="SciView" order="5" type="WINDOWED" weight="0.42225772" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.32983193" />
-      <window_info anchor="bottom" id="Version Control" order="11" weight="0.32878152" />
       <window_info active="true" anchor="bottom" id="Inspection Results" order="13" visible="true" weight="0.2762605" />
-      <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21001221" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32878152" />
+      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="2" weight="0.32983193" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" x="0" y="0" width="430" height="1000" id="Documentation" order="6" side_tool="true" weight="0.39882854" />
       <window_info anchor="bottom" x="-101" y="-1058" width="1920" height="1058" id="Debug" order="4" type="FLOATING" visible="true" weight="0.33193278" />
       <window_info anchor="right" id="Coverage" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
+      <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="11" weight="0.32878152" />
       <window_info active="true" anchor="bottom" id="Concurrent Activities Diagram" order="14" visible="true" weight="0.32983193" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32878152" />
       <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32878152" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32878152" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -443,16 +465,27 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="213" />
+      <option name="time" value="231" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="soup" />
+        <watch expression="dataset.raw_data[4000]" language="Python" />
+        <watch expression="input" language="Python" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
+      <expression>
+        <expression-string>input</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>dataset.raw_data[4000]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>csv_writer</expression-string>
         <language-id>Python</language-id>
@@ -476,13 +509,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/insuranceqa_data/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="246">
@@ -569,27 +595,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sample/jieba/finalseg/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1026">
-          <caret line="59" column="11" selection-start-line="59" selection-start-column="11" selection-end-line="59" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sample/jieba/posseg/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1710">
-          <caret line="97" column="8" selection-start-line="97" selection-start-column="8" selection-end-line="97" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sample/jieba/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="533" column="24" selection-start-line="533" selection-start-column="24" selection-end-line="533" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/sample/jieba/finalseg/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/sample/jieba/posseg/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/sample/jieba/__init__.py" />
     <entry file="file:///anaconda3/lib/python3.6/site-packages/tensorflow/python/platform/app.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="900">
@@ -601,16 +609,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="491">
           <caret line="315" column="34" selection-start-line="315" selection-start-column="34" selection-end-line="315" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/file_process.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#101#114#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -635,24 +633,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/make_wordvec.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/make_wordvec.py" />
     <entry file="file:///anaconda3/lib/python3.6/multiprocessing/reduction.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="63" column="1" selection-start-line="63" selection-start-column="1" selection-end-line="63" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cn_inputs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="53" column="47" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="47" />
         </state>
       </provider>
     </entry>
@@ -667,9 +652,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
           <caret line="35" column="39" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -709,29 +691,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/corpus/Spider.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="83" selection-start-line="83" selection-end-line="83" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wordvec/zh.tsv">
-      <provider selected="true" editor-type-id="LargeFileEditor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/make_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-900">
-          <caret line="182" column="30" lean-forward="true" selection-start-line="182" selection-start-column="30" selection-end-line="182" selection-end-column="30" />
-          <folding>
-            <element signature="e#105#117#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/corpus/Spider.py" />
     <entry file="file:///anaconda3/lib/python3.6/site-packages/progressbar/bar.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="693">
@@ -739,50 +699,88 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cn_train.py">
+    <entry file="file://$PROJECT_DIR$/wordvec/make_wordvec.py" />
+    <entry file="file:///anaconda3/lib/python3.6/site-packages/numpy/lib/npyio.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
+        <state relative-caret-position="1764">
+          <caret line="373" column="31" selection-start-line="373" selection-start-column="31" selection-end-line="373" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wordvec/make_wordvec.py">
+    <entry file="file://$PROJECT_DIR$/models/helpers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="19" selection-start-column="19" selection-end-column="19" />
+        <state relative-caret-position="741">
+          <caret line="43" column="21" selection-start-line="43" selection-start-column="21" selection-end-line="43" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cn_inputs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="821">
+          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cn_metrics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cn_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
+        <state relative-caret-position="802">
+          <caret line="112" column="19" selection-start-line="112" selection-start-column="19" selection-end-line="112" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cn_hparams.py">
+    <entry file="file://$PROJECT_DIR$/models/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="81" column="22" selection-start-line="81" selection-start-column="22" selection-end-line="81" selection-end-column="22" />
+        <state relative-caret-position="403">
+          <caret line="386" column="26" selection-start-line="386" selection-start-column="26" selection-end-line="386" selection-end-column="26" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/helpers.py">
+    <entry file="file://$PROJECT_DIR$/file_process.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="25" column="12" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="12" />
+        <state relative-caret-position="-119">
+          <caret line="23" column="36" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
+          <folding>
+            <element signature="e#101#114#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/model.py">
+    <entry file="file://$PROJECT_DIR$/cn_hparams.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="319" column="33" selection-start-line="319" selection-start-column="33" selection-end-line="319" selection-end-column="33" />
+        <state relative-caret-position="359">
+          <caret line="45" column="19" selection-start-line="45" selection-start-column="19" selection-end-line="45" selection-end-column="19" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cn_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/make_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="217" column="36" lean-forward="true" selection-start-line="217" selection-start-column="36" selection-end-line="217" selection-end-column="36" />
+          <folding>
+            <element signature="e#105#117#0" expanded="true" />
           </folding>
         </state>
       </provider>

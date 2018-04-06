@@ -49,16 +49,6 @@ class Dataset():
         if user_dict is not []:
             self._userdict = user_dict
 
-        # # 加载词向量和id查找表
-        # self.word2id_lookup_list = fp.load_obj(word2id_file)
-        # self.id2vec_lookup_list = np.load(id2vec_file)
-
-        # # <unknown> : set values of vector as all 0
-        # length = len(self.word2id_lookup_list)
-        # self.word2id_lookup_list.update({'<unknown>': length})
-        # self.id2vec_lookup_list = np.append(
-        #     self.id2vec_lookup_list, [np.zeros(300)], axis=0)
-
         jieba.load_userdict(self._userdict)
 
         # 导入数据集
@@ -67,7 +57,7 @@ class Dataset():
         with open(filename, "r") as csvFile:
             reader = csv.reader(csvFile)
             self.raw_data = [{
-                'question': row[0], 'answer': row[1]} for row in reader]
+                'question': row[0], 'answer': row[1]} for row in reader if len(row[0])!=0]
             csvFile.close()
         self._data_len = len(self.raw_data)
 
@@ -310,7 +300,7 @@ if __name__ == "__main__":
                       prop=[0.6, 0.2, 0.2])
 
     print("Creating vocabulary...")
-    input_iter = [x['question']+' '+x['answer'] for x in dataset.raw_data]
+    input_iter = (x['question']+' '+x['answer'] for x in dataset.raw_data)
     vocab = dataset.create_vocab(
         input_iter, min_frequency=FLAGS.min_word_frequency)
     print("Total vocabulary size: {}".format(len(vocab.vocabulary_)))
@@ -324,21 +314,27 @@ if __name__ == "__main__":
 
     # Create tfrecords
     print("Creating validation tfrecords...")
-    input = [list(x.values()) for x in dataset.valid_data]
+    input = [[x['question'],x['answer'],x['distractor_0'],x['distractor_1'],x['distractor_2'],
+              x['distractor_3'],x['distractor_4'],x['distractor_5'],
+              x['distractor_6'],x['distractor_7'],x['distractor_8'],
+              ] for x in dataset.valid_data]
     dataset.create_tfrecords_file(input,
                                   output_filename=os.path.join(
                                       FLAGS.output_dir, "validation.tfrecords"),
                                   example_fn=functools.partial(dataset.create_example_test, vocab=vocab))
 
     print("Creating test tfrecords...")
-    input = [list(x.values()) for x in dataset.test_data]
+    input = [[x['question'],x['answer'],x['distractor_0'],x['distractor_1'],x['distractor_2'],
+              x['distractor_3'],x['distractor_4'],x['distractor_5'],
+              x['distractor_6'],x['distractor_7'],x['distractor_8'],
+              ] for x in dataset.test_data]
     dataset.create_tfrecords_file(input,
                                   output_filename=os.path.join(
                                       FLAGS.output_dir, "test.tfrecords"),
                                   example_fn=functools.partial(dataset.create_example_test, vocab=vocab))  # 固定函数变量
 
     print("Creating valitraindation tfrecords...")
-    input = [list(x.values()) for x in dataset.train_data]
+    input = [[x['question'],x['answer'],x['label']] for x in dataset.train_data]
     dataset.create_tfrecords_file(input,
                                   output_filename=os.path.join(
                                       FLAGS.output_dir, "train.tfrecords"),

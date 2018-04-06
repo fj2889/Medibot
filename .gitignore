@@ -2,6 +2,7 @@ run/*
 run/
 run
 bigdata/
+word2vec/
 *.bin
 *.meta
 *.index

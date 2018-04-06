@@ -29,7 +29,7 @@ tf.flags.DEFINE_string(
 # Training Parameters
 tf.flags.DEFINE_float("learning_rate", 0.001, "Learning rate")
 tf.flags.DEFINE_integer("batch_size", 128, "Batch size during training")
-tf.flags.DEFINE_integer("eval_batch_size", 16, "Batch size during evaluation")
+tf.flags.DEFINE_integer("eval_batch_size", 1, "Batch size during evaluation")
 tf.flags.DEFINE_string("optimizer", "Adam",
                        "Optimizer Name (Adam, Adagrad, etc)")
 
@@ -43,7 +43,7 @@ tf.flags.DEFINE_integer("loglevel", 20, "Tensorflow log level")
 tf.flags.DEFINE_integer(
     "num_epochs", None, "Number of training Epochs. Defaults to indefinite.")
 tf.flags.DEFINE_integer(
-    "eval_every", 2000, "Evaluate after this many train steps")
+    "eval_every", 2, "Evaluate after this many train steps")
 
 
 tf.flags.DEFINE_integer(
