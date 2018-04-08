@@ -13,8 +13,8 @@ FLAGS = tf.flags.FLAGS
 
 TIMESTAMP = int(time.time())
 
-if FLAGS.model_dir:
-    MODEL_DIR = FLAGS.model_dir
+if FLAGS.RNN_MaxPooling_model_dir:
+    MODEL_DIR = FLAGS.RNN_MaxPooling_model_dir
 else:
     MODEL_DIR = os.path.abspath(os.path.join("./runs", str(TIMESTAMP)))
 

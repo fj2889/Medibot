@@ -8,10 +8,10 @@ import cn_hparams
 import cn_metrics
 import cn_inputs
 from models.model import dual_encoder_model
+from models import model
 
 tf.flags.DEFINE_string("test_file", "./data/test.tfrecords", "Path of test data in TFRecords format")
-tf.flags.DEFINE_string("model_dir", None, "Directory to load model checkpoints from")
-tf.flags.DEFINE_integer("loglevel", 20, "Tensorflow log level")
+tf.flags.DEFINE_string("model_dir", "./runs/RNN_CNN_MaxPooling", "Directory to load model checkpoints from")
 tf.flags.DEFINE_integer("test_batch_size", 16, "Batch size for testing")
 FLAGS = tf.flags.FLAGS
 
@@ -23,7 +23,13 @@ tf.logging.set_verbosity(FLAGS.loglevel)
 
 if __name__ == "__main__":
   hparams = cn_hparams.create_hparams()
-  model_fn = cn_model.create_model_fn(hparams, model_impl=dual_encoder_model)
+  model_fn = cn_model.create_model_fn(
+          hparams,
+          model_impl=dual_encoder_model,
+          model_fun=model.RNN_CNN_MaxPooling,
+          RNNInit=tf.nn.rnn_cell.LSTMCell,
+          is_bidirection=True
+      )
   estimator = tf.contrib.learn.Estimator(
     model_fn=model_fn,
     model_dir=FLAGS.model_dir,

@@ -37,13 +37,17 @@ tf.flags.DEFINE_string("optimizer", "Adam",
 # /data文件夹
 tf.flags.DEFINE_string("input_dir", "./data",
                        "Directory containing input data files 'train.tfrecords' and 'validation.tfrecords'")
-tf.flags.DEFINE_string(
-    "model_dir", 'run/data', "Directory to store model checkpoints (defaults to ./runs)")
+tf.flags.DEFINE_string("RNN_CNN_MaxPooling_model_dir", 'runs/RNN_CNN_MaxPooling',
+                       "Directory to store model checkpoints (defaults to ./runs)")
+tf.flags.DEFINE_string("RNN_MaxPooling_model_dir", 'runs/RNN_MaxPooling',
+                       "Directory to store model checkpoints (defaults to ./runs)")
+tf.flags.DEFINE_string("RNN_model_dir", 'runs/RNN',
+                       "Directory to store model checkpoints (defaults to ./runs)")
 tf.flags.DEFINE_integer("loglevel", 20, "Tensorflow log level")
 tf.flags.DEFINE_integer(
     "num_epochs", None, "Number of training Epochs. Defaults to indefinite.")
 tf.flags.DEFINE_integer(
-    "eval_every", 2, "Evaluate after this many train steps")
+    "eval_every", 20, "Evaluate after this many train steps")
 
 
 tf.flags.DEFINE_integer(
