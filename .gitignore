@@ -1,7 +1,6 @@
-<<<<<<< HEAD
-run/*
-run/
-run
+runs/*
+runs/
+runs
 bigdata/
 word2vec/
 *.bin
@@ -9,7 +8,6 @@ word2vec/
 *.index
 *.data*
 *.loca
-=======
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -111,4 +109,4 @@ ENV/
 
 # mypy
 .mypy_cache/
->>>>>>> e90f48a016b57d1e3e0577427ddbaf69cc28405c
+
