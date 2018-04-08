@@ -102,12 +102,12 @@ def RNN_MaxPooling(RNN_Init,
     '''
     outputs = tf.nn.max_pool(outputs, ksize=[1, outputs.get_shape()[1], 1, 1],
                              strides=[1, 1, 1, 1], padding='VALID')  # [batch_size,sequence_length,dim,1]
-    print('after maxpool {}'.format(outputs))
-    outputs = tf.squeeze(outputs)
-    print('after reshape {}'.format(outputs))
+    # print('after maxpool {}'.format(outputs))
+    outputs = tf.squeeze(outputs, axis=[1, 3])
+    # print('after reshape {}'.format(outputs))
     # encoding_context, encoding_utterance = tf.split(outputs, 2, 0)
     encoding_context, encoding_utterance = process_state(outputs)
-    print('after split {}'.format(outputs))
+    # print('after split {}'.format(outputs))
     return encoding_context, encoding_utterance
 
 
@@ -130,11 +130,11 @@ def RNN_CNN_MaxPooling(
         outputs = tf.concat([outputs[0], outputs[1]], axis=1)
     # 增加通道维度  shape:[batch_size,sequence_length,dim,1]
     outputs = tf.expand_dims(outputs, -1)
-    print('outputs_expand shape {}'.format(outputs.get_shape()))
+    # print('outputs_expand shape {}'.format(outputs.get_shape()))
     outputs_context, outputs_utterance = tf.split(
         outputs, 2, 0)  # 分别为context和utterence
-    print('outputs_context shape {}'.format(outputs_context.get_shape()))
-    print('outputs_utterance shape {}'.format(outputs_utterance.get_shape()))
+    # print('outputs_context shape {}'.format(outputs_context.get_shape()))
+    # print('outputs_utterance shape {}'.format(outputs_utterance.get_shape()))
 
     def map_filter(filter_size):
         with tf.variable_scope('conv-maxpool-%s' % filter_size):
@@ -158,7 +158,7 @@ def RNN_CNN_MaxPooling(
                 padding='VALID',
                 name='conv-context'
             )  # (128, 159, 1, 30)
-            print('conv_context shape {}'.format(conv_context.get_shape()))
+            # print('conv_context shape {}'.format(conv_context.get_shape()))
             h_context = tf.nn.relu(tf.nn.bias_add(
                 conv_context, b_context), name='h_context')
             pooled_context = tf.nn.max_pool(
@@ -168,7 +168,7 @@ def RNN_CNN_MaxPooling(
                 padding='VALID',
                 name='pool_context'
             )  # (128, 1, 1, 30)
-            print('pool_context shape {}'.format(pooled_context.get_shape()))
+            # print('pool_context shape {}'.format(pooled_context.get_shape()))
             # pooled_context_list.append(pooled_context)
 
             filter_utterance_shape = [
@@ -191,7 +191,7 @@ def RNN_CNN_MaxPooling(
                 padding='VALID',
                 name='conv-utterance'
             )
-            print('conv_utterance shape {}'.format(conv_utterance.get_shape()))
+            # print('conv_utterance shape {}'.format(conv_utterance.get_shape()))
             h_utterance = tf.nn.relu(tf.nn.bias_add(
                 conv_utterance, b_utterance), name='h_utterance')
             pooled_utterance = tf.nn.max_pool(
@@ -201,8 +201,8 @@ def RNN_CNN_MaxPooling(
                 padding='VALID',
                 name='pool_utterance'
             )  # batch_size,1,1,num_filters
-            print('pooled_utterance shape {}'.format(
-                pooled_utterance.get_shape()))
+            # print('pooled_utterance shape {}'.format(
+            #     pooled_utterance.get_shape()))
             # pooled_utterance_list.append(pooled_utterance)
         return [pooled_context, pooled_utterance]
 
@@ -212,12 +212,12 @@ def RNN_CNN_MaxPooling(
     pooled_utterance_list = [x[1] for x in _list]
     encoding_context = tf.concat(pooled_context_list, 3)
     encoding_utterance = tf.concat(pooled_utterance_list, 3)
-    print('concact_context shape {}'.format(encoding_context.get_shape()))
+    # print('concact_context shape {}'.format(encoding_context.get_shape()))
     encoding_context = tf.reshape(
         encoding_context, shape=[-1, num_filters * len(filtersizes)])
     encoding_utterance = tf.reshape(
         encoding_utterance, shape=[-1, num_filters * len(filtersizes)])
-    print('reshape_context shape {}'.format(encoding_context.get_shape()))
+    # print('reshape_context shape {}'.format(encoding_context.get_shape()))
     return encoding_context, encoding_utterance
 
 
@@ -266,15 +266,15 @@ def RNN_Attention(RNN_Init,
             ])
         utterance_Mat = tf.matmul(
             outputs_utterance, Wam_stack_batch)  # (128, 160, 1)
-        print("answer_mat:{}".format(utterance_Mat.get_shape()))
+        # print("answer_mat:{}".format(utterance_Mat.get_shape()))
         utterance_Mat = tf.squeeze(utterance_Mat, [2])  # (128, 160)
-        print("answer_mat:{}".format(utterance_Mat.get_shape()))
+        # print("answer_mat:{}".format(utterance_Mat.get_shape()))
         context_Mat = tf.matmul(outputs_context, Wqm_stack_batch)
-        print("context_mat:{}".format(context_Mat.get_shape()))
+        # print("context_mat:{}".format(context_Mat.get_shape()))
         context_Mat = tf.squeeze(context_Mat, [2])
-        print("context_mat:{}".format(context_Mat.get_shape()))
+        # print("context_mat:{}".format(context_Mat.get_shape()))
         maq = tf.nn.tanh(utterance_Mat + context_Mat)
-        print("maq:{}".format(maq.get_shape()))
+        # print("maq:{}".format(maq.get_shape()))
 
         Wms = tf.get_variable(name='Wms',
                               shape=[outputs_utterance.get_shape(
@@ -283,7 +283,7 @@ def RNN_Attention(RNN_Init,
                                   stddev=0.1)
                               )
         saq = tf.nn.softmax(tf.matmul(maq, Wms))  # saq:(128, 160)
-        print("saq:{}".format(saq.get_shape()))
+        # print("saq:{}".format(saq.get_shape()))
         # element-wise
         outputs_utterance = tf.matmul(tf.reshape(
             saq, [-1, 1, int(saq.get_shape()[1])]), outputs_utterance)
@@ -340,15 +340,15 @@ def dual_encoder_model(
 
     # Initialize embedidngs randomly or with pre-trained vectors if available
     embeddings_W = get_embeddings(hparams)
-    print('context shape {}'.format(context))  # 顺便显示shape
+    # print('context shape {}'.format(context))  # 顺便显示shape
     # Embed the context and the utterance
     context_embedded = tf.nn.embedding_lookup(  # 三维？
         embeddings_W, context, name="embed_context")
     utterance_embedded = tf.nn.embedding_lookup(
         embeddings_W, utterance, name="embed_utterance")
 
-    print('context_embedded shape {}'.format(context_embedded))
-    print('utterence_embedded shape {}'.format(utterance_embedded))
+    # print('context_embedded shape {}'.format(context_embedded))
+    # print('utterence_embedded shape {}'.format(utterance_embedded))
 
     if model_fun is RNN:
         outputs, states = RNN(RNNInit,
@@ -369,8 +369,8 @@ def dual_encoder_model(
                                                          is_bidirection)
     else:
         raise ValueError('model_fun illegal!!!!!!')
-    print('encoding_context shape {}'.format(encoding_context))
-    print('encoding_utterence shape {}'.format(encoding_utterance))
+    # print('encoding_context shape {}'.format(encoding_context))
+    # print('encoding_utterence shape {}'.format(encoding_utterance))
     with tf.variable_scope("prediction"):
         _shape = encoding_context.get_shape()[1]
         M = tf.get_variable("M",
@@ -379,20 +379,20 @@ def dual_encoder_model(
 
         # "Predict" a  response: c * M
         generated_response = tf.matmul(encoding_context, M)
-        print('c*M {}'.format(generated_response))
+        # print('c*M {}'.format(generated_response))
         generated_response = tf.expand_dims(
             generated_response, 2)  # 增加了第三个维度？？
         # 增加维度是为了让每个batch分开做乘积，也就是乘积只做用在后面两个维度
         encoding_utterance = tf.expand_dims(encoding_utterance, 2)
-        print('expand dims generated response {}'.format(generated_response))
-        print('expand dims encoding utterence {}'.format(encoding_utterance))
+        # print('expand dims generated response {}'.format(generated_response))
+        # print('expand dims encoding utterence {}'.format(encoding_utterance))
         # Dot product between generated response and actual response
         # (c * M) * r
         logits = tf.matmul(generated_response,
                            encoding_utterance, True)  # 维度匹配
-        print('logits shape {}'.format(logits))
+        # print('logits shape {}'.format(logits))
         logits = tf.squeeze(logits, [2])  # 删除第三个维度?
-        print('squeeze logits shape {}'.format(logits))
+        # print('squeeze logits shape {}'.format(logits))
         # Apply sigmoid to convert logits to probabilities
         probs = tf.sigmoid(logits)
 

@@ -30,7 +30,8 @@ def create_model_fn(hparams, model_impl, model_fun,
         utterance, utterance_len = get_id_feature(
             features, "utterance", "utterance_len", hparams.max_utterance_len)
 
-        batch_size = targets.get_shape().as_list()[0]
+        if mode!=tf.contrib.learn.ModeKeys.INFER:
+            batch_size = targets.get_shape().as_list()[0]
 
         if mode == tf.contrib.learn.ModeKeys.TRAIN:
             probs, loss = model_impl(
