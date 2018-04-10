@@ -9,6 +9,7 @@ old_data/
 *.index
 *.data*
 *.loca
+*.tfrecords
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
