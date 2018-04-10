@@ -3,6 +3,7 @@ runs/
 runs
 bigdata/
 word2vec/
+old_data/
 *.bin
 *.meta
 *.index
