@@ -16,27 +16,44 @@ tf.flags.DEFINE_integer("max_context_len", 160,
 tf.flags.DEFINE_integer("max_utterance_len", 80,
                         "Truncate utterance to this length")
 
-# Pre-trained embeddings
-# "./data/glove.6B.100d.txt"
-# ./data/vocabulary.txt
-tf.flags.DEFINE_string("glove_path", './data/glove.6B.100d.txt',
-                       "Path to pre-trained Glove vectors")
-tf.flags.DEFINE_string("vocab_path", './data/vocabulary.txt',
-                       "Path to vocabulary.txt file")
-tf.flags.DEFINE_string(
-    "word2vec_path", 'word2vec/word2vec.npy', "Path to dataset.pkl file")
+
+
+
 
 # Training Parameters
 tf.flags.DEFINE_float("learning_rate", 0.001, "Learning rate")
-tf.flags.DEFINE_integer("batch_size", 128, "Batch size during training")
-tf.flags.DEFINE_integer("eval_batch_size", 1, "Batch size during evaluation")
+tf.flags.DEFINE_integer("batch_size", 64, "Batch size during training")
+tf.flags.DEFINE_integer("eval_batch_size", 8, "Batch size during evaluation")
 tf.flags.DEFINE_string("optimizer", "Adam",
                        "Optimizer Name (Adam, Adagrad, etc)")
 
+tf.flags.DEFINE_boolean("old_data", True,
+                        "decide if use the old data")
+if tf.flags.FLAGS.old_data:
+    print("using old data/word vector/vocabulary/vocab_processor")
+    # /data文件夹
+    tf.flags.DEFINE_string("input_dir", "./old_data",
+                           "Directory containing input data files 'train.tfrecords' and 'validation.tfrecords'")
+    # Pre-trained embeddings
+    # "./data/glove.6B.100d.txt"
+    # ./data/vocabulary.txt
+    tf.flags.DEFINE_string("word2vec_path", None,
+                           "Path to pre-trained Glove vectors")
 
-# /data文件夹
-tf.flags.DEFINE_string("input_dir", "./data",
-                       "Directory containing input data files 'train.tfrecords' and 'validation.tfrecords'")
+    tf.flags.DEFINE_string("vocab_path", './old_data/vocabulary.txt',
+                           "Path to vocabulary.txt file")
+    tf.flags.DEFINE_string("vocab_processor_file", "./old_data/vocab_processor.bin", "Saved vocabulary processor file")
+else:
+    print("using new data/word vector/vocabulary/vocab_processor")
+    # /data文件夹
+    tf.flags.DEFINE_string("input_dir", "./data",
+                           "Directory containing input data files 'train.tfrecords' and 'validation.tfrecords'")
+    tf.flags.DEFINE_string("word2vec_path", 'word2vec/word2vec.npy',
+                           "Path to dataset.pkl file")
+    tf.flags.DEFINE_string("vocab_path", './data/vocabulary.txt',
+                           "Path to vocabulary.txt file")
+    tf.flags.DEFINE_string("vocab_processor_file", "./data/vocab_processor.bin", "Saved vocabulary processor file")
+
 tf.flags.DEFINE_string("RNN_CNN_MaxPooling_model_dir", 'runs/RNN_CNN_MaxPooling',
                        "Directory to store model checkpoints (defaults to ./runs)")
 tf.flags.DEFINE_string("RNN_MaxPooling_model_dir", 'runs/RNN_MaxPooling',
@@ -44,14 +61,14 @@ tf.flags.DEFINE_string("RNN_MaxPooling_model_dir", 'runs/RNN_MaxPooling',
 tf.flags.DEFINE_string("RNN_model_dir", 'runs/RNN',
                        "Directory to store model checkpoints (defaults to ./runs)")
 tf.flags.DEFINE_integer("loglevel", 20, "Tensorflow log level")
-tf.flags.DEFINE_integer(
-    "num_epochs", None, "Number of training Epochs. Defaults to indefinite.")
-tf.flags.DEFINE_integer(
-    "eval_every", 20, "Evaluate after this many train steps")
+tf.flags.DEFINE_integer("num_epochs", None,
+                        "Number of training Epochs. Defaults to indefinite.")
+tf.flags.DEFINE_integer("eval_every", 105,
+                        "Evaluate after this many train steps")
 
 
-tf.flags.DEFINE_integer(
-    "min_word_frequency", 5, "Minimum frequency of words in the vocabulary")
+tf.flags.DEFINE_integer("min_word_frequency", 5,
+                        "Minimum frequency of words in the vocabulary")
 
 tf.flags.DEFINE_integer("max_sentence_len", 160, "Maximum Sentence Length")
 
@@ -81,7 +98,6 @@ HParams = namedtuple(
         "optimizer",
         "rnn_dim",
         "vocab_size",
-        "glove_path",
         "vocab_path",
         "word2vec_path",
 
@@ -98,7 +114,6 @@ def create_hparams():
         embedding_dim=FLAGS.embedding_dim,
         max_context_len=FLAGS.max_context_len,
         max_utterance_len=FLAGS.max_utterance_len,
-        glove_path=FLAGS.glove_path,
         vocab_path=FLAGS.vocab_path,
         word2vec_path=FLAGS.word2vec_path,
         rnn_dim=FLAGS.rnn_dim)

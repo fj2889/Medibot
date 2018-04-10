@@ -15,7 +15,6 @@ from models.helpers import load_vocab
 import pickle
 
 tf.flags.DEFINE_string("model_dir", "./runs/RNN_CNN_MaxPooling", "Directory to load model checkpoints from")
-tf.flags.DEFINE_string("vocab_processor_file", "./data/vocab_processor.bin", "Saved vocabulary processor file")
 FLAGS = tf.flags.FLAGS
 
 if not FLAGS.model_dir:
@@ -35,7 +34,7 @@ with open("data/dataset.pkl","rb") as file:
 
 INPUT_CONTEXT = dataset.raw_data[13]["question"]
 # POTENTIAL_RESPONSES = [dataset.raw_data[i]["answer"] for i in range(len(dataset.raw_data))]
-POTENTIAL_RESPONSES = [dataset.raw_data[i]["answer"] for i in range(400)]
+POTENTIAL_RESPONSES = [dataset.raw_data[i]["answer"] for i in range(1000)]
 
 def get_features(context, utterances):
     context_matrix_for_one = next(vp.transform([context])).tolist()
