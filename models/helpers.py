@@ -23,16 +23,27 @@ def load_glove_vectors(filename, vocab):
     dct = {}
     vectors = array.array('d')
     current_idx = 0
-    word2vec = np.load(filename)
-
-    for tokens in word2vec:
-        # tokens = line.split(" ")
-        word = tokens[0]
-        entries = tokens[1:]
-        if not vocab or word in vocab:
-            dct[word] = current_idx
-            vectors.extend(float(x) for x in entries)
-            current_idx += 1
+    entries=[]
+    if filename=="./old_data/vocabulary.txt":
+        with open(filename, "r", encoding="utf-8") as f:
+            for _, line in enumerate(f):
+                tokens = line.split(" ")
+                word = tokens[0]
+                entries = tokens[1:]
+                if not vocab or word in vocab:
+                    dct[word] = current_idx
+                    vectors.extend(float(x) for x in entries)
+                    current_idx += 1
+    elif filename=="word2vec/word2vec.npy":
+        word2vec = np.load(filename)
+        for tokens in word2vec:
+            # tokens = line.split(" ")
+            word = tokens[0]
+            entries = tokens[1:]
+            if not vocab or word in vocab:
+                dct[word] = current_idx
+                vectors.extend(float(x) for x in entries)
+                current_idx += 1
 
     word_dim = len(entries)
     num_vectors = len(dct)

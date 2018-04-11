@@ -2,20 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa4d3560-3d26-425b-a3ec-9277a16f9bd0" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/runs/RNN_CNN_MaxPooling/eval/events.out.tfevents.1523072394.FJ2889" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/runs/RNN_CNN_MaxPooling/eval/events.out.tfevents.1523173217.FJ2889" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/runs/RNN_CNN_MaxPooling/events.out.tfevents.1523072260.FJ2889" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/runs/RNN_CNN_MaxPooling/events.out.tfevents.1523166510.FJ2889" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/runs/RNN_MaxPooling/checkpoint" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/runs/RNN_MaxPooling/eval/events.out.tfevents.1523166804.FJ2889" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/runs/RNN_MaxPooling/events.out.tfevents.1523166683.FJ2889" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/runs/RNN_MaxPooling/graph.pbtxt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cn_hparams.py" afterPath="$PROJECT_DIR$/cn_hparams.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cn_predict.py" afterPath="$PROJECT_DIR$/cn_predict.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cn_train.py" afterPath="$PROJECT_DIR$/cn_train.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/runs/RNN_CNN_MaxPooling/checkpoint" afterPath="$PROJECT_DIR$/runs/RNN_CNN_MaxPooling/checkpoint" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/runs/RNN_CNN_MaxPooling/graph.pbtxt" afterPath="$PROJECT_DIR$/runs/RNN_CNN_MaxPooling/graph.pbtxt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/helpers.py" afterPath="$PROJECT_DIR$/models/helpers.py" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,7 +17,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Chatbot_code$make_data.coverage" NAME="make_data Coverage Results" MODIFIED="1523001887447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Chatbot$cn_test.coverage" NAME="cn_test Coverage Results" MODIFIED="1523173182253" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Chatbot$udc_train.coverage" NAME="udc_train Coverage Results" MODIFIED="1523348792752" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Chatbot$udc_train.coverage" NAME="udc_train Coverage Results" MODIFIED="1523429932663" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Chatbot$make_data.coverage" NAME="make_data Coverage Results" MODIFIED="1523004278370" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Chatbot_code$make_wordvec__1_.coverage" NAME="make_wordvec (1) Coverage Results" MODIFIED="1522808658602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wordvec" />
     <SUITE FILE_PATH="coverage/Chatbot_code$udc_train.coverage" NAME="udc_train Coverage Results" MODIFIED="1523001928106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -39,6 +28,7 @@
     <SUITE FILE_PATH="coverage/Chatbot$cn_predict.coverage" NAME="cn_predict Coverage Results" MODIFIED="1523256785922" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Chatbot_code$prepare_data.coverage" NAME="prepare_data Coverage Results" MODIFIED="1522598208718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Chatbot_code$make_wordvec.coverage" NAME="make_wordvec Coverage Results" MODIFIED="1522659472835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Chatbot$helpers.coverage" NAME="helpers Coverage Results" MODIFIED="1523429924236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/models" />
     <SUITE FILE_PATH="coverage/Chatbot_code$inputs.coverage" NAME="inputs Coverage Results" MODIFIED="1522634853450" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -53,8 +43,8 @@
       <file leaf-file-name="model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="303" column="28" selection-start-line="303" selection-start-column="28" selection-end-line="303" selection-end-column="28" />
+            <state relative-caret-position="231">
+              <caret line="309" column="52" selection-start-line="309" selection-start-column="52" selection-end-line="309" selection-end-column="52" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -62,11 +52,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cn_hparams.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="cn_hparams.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cn_hparams.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="29" column="40" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
+            <state relative-caret-position="-132">
+              <caret line="29" column="41" selection-start-line="29" selection-start-column="41" selection-end-line="29" selection-end-column="41" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -74,12 +64,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cn_train.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cn_train.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cn_train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
-              <folding />
+            <state relative-caret-position="99">
+              <caret line="39" column="28" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="helpers.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/helpers.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="172">
+              <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -87,7 +91,7 @@
       <file leaf-file-name="cn_predict.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cn_predict.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
+            <state relative-caret-position="-630">
               <caret line="16" column="108" selection-start-line="16" selection-start-column="108" selection-end-line="16" selection-end-column="108" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -170,7 +174,6 @@
         <option value="$PROJECT_DIR$/wordvec/make_wordvec.py" />
         <option value="$PROJECT_DIR$/cn_metrics.py" />
         <option value="$PROJECT_DIR$/file_process.py" />
-        <option value="$PROJECT_DIR$/models/helpers.py" />
         <option value="$PROJECT_DIR$/make_data.py" />
         <option value="$PROJECT_DIR$/cn_test.py" />
         <option value="$PROJECT_DIR$/cn_model.py" />
@@ -178,6 +181,7 @@
         <option value="$PROJECT_DIR$/cn_predict.py" />
         <option value="$PROJECT_DIR$/models/model.py" />
         <option value="$PROJECT_DIR$/cn_hparams.py" />
+        <option value="$PROJECT_DIR$/models/helpers.py" />
       </list>
     </option>
   </component>
@@ -229,7 +233,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -306,7 +310,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -345,24 +349,6 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.udc_train">
-    <configuration default="false" name="make_data" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Chatbot-code" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/make_data.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="udc_train" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -431,6 +417,24 @@
       <module name="Chatbot-code" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cn_hparams.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="helpers" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/models" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Chatbot-code" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/models/helpers.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -655,19 +659,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.make_data" />
-      <item index="1" class="java.lang.String" itemvalue="Python.udc_train" />
-      <item index="2" class="java.lang.String" itemvalue="Python.cn_predict" />
-      <item index="3" class="java.lang.String" itemvalue="Python.cn_test" />
-      <item index="4" class="java.lang.String" itemvalue="Python.cn_hparams" />
+      <item index="0" class="java.lang.String" itemvalue="Python.udc_train" />
+      <item index="1" class="java.lang.String" itemvalue="Python.cn_predict" />
+      <item index="2" class="java.lang.String" itemvalue="Python.cn_test" />
+      <item index="3" class="java.lang.String" itemvalue="Python.cn_hparams" />
+      <item index="4" class="java.lang.String" itemvalue="Python.helpers" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.udc_train" />
-        <item index="1" class="java.lang.String" itemvalue="Python.cn_hparams" />
-        <item index="2" class="java.lang.String" itemvalue="Python.cn_predict" />
-        <item index="3" class="java.lang.String" itemvalue="Python.cn_test" />
-        <item index="4" class="java.lang.String" itemvalue="Python.make_data" />
+        <item index="1" class="java.lang.String" itemvalue="Python.helpers" />
+        <item index="2" class="java.lang.String" itemvalue="Python.cn_hparams" />
+        <item index="3" class="java.lang.String" itemvalue="Python.cn_predict" />
+        <item index="4" class="java.lang.String" itemvalue="Python.cn_test" />
       </list>
     </recent_temporary>
   </component>
@@ -821,13 +825,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/init.py" />
     <entry file="file://$PROJECT_DIR$/prepare_data.py" />
     <entry file="file:///anaconda3/lib/python3.6/site-packages/tensorflow/python/platform/flags.py" />
@@ -945,17 +942,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/helpers.py">
+    <entry file="file://E:/Anaconda/anaconda/Lib/site-packages/absl/flags/_flagvalues.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="4" column="19" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="19" />
-          <folding />
+        <state relative-caret-position="205">
+          <caret line="469" column="0" selection-start-line="469" selection-start-column="0" selection-end-line="469" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="309" column="52" selection-start-line="309" selection-start-column="52" selection-end-line="309" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cn_predict.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
+        <state relative-caret-position="-630">
           <caret line="16" column="108" selection-start-line="16" selection-start-column="108" selection-end-line="16" selection-end-column="108" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
@@ -963,39 +969,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://E:/Anaconda/anaconda/Lib/site-packages/absl/flags/_flagvalues.py">
+    <entry file="file://E:/Anaconda/anaconda/Lib/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="205">
-          <caret line="469" column="0" selection-start-line="469" selection-start-column="0" selection-end-line="469" selection-end-column="0" />
+          <caret line="320" column="0" selection-start-line="320" selection-start-column="0" selection-end-line="320" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/model.py">
+    <entry file="file://$PROJECT_DIR$/cn_train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="303" column="28" selection-start-line="303" selection-start-column="28" selection-end-line="303" selection-end-column="28" />
+        <state relative-caret-position="99">
+          <caret line="39" column="28" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cn_hparams.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="29" column="40" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
+        <state relative-caret-position="-132">
+          <caret line="29" column="41" selection-start-line="29" selection-start-column="41" selection-end-line="29" selection-end-column="41" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cn_train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>

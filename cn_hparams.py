@@ -27,7 +27,7 @@ tf.flags.DEFINE_integer("eval_batch_size", 8, "Batch size during evaluation")
 tf.flags.DEFINE_string("optimizer", "Adam",
                        "Optimizer Name (Adam, Adagrad, etc)")
 
-tf.flags.DEFINE_boolean("old_data", True,
+tf.flags.DEFINE_boolean("old_data", False,
                         "decide if use the old data")
 if tf.flags.FLAGS.old_data:
     print("using old data/word vector/vocabulary/vocab_processor")
@@ -35,9 +35,9 @@ if tf.flags.FLAGS.old_data:
     tf.flags.DEFINE_string("input_dir", "./old_data",
                            "Directory containing input data files 'train.tfrecords' and 'validation.tfrecords'")
     # Pre-trained embeddings
-    # "./data/glove.6B.100d.txt"
-    # ./data/vocabulary.txt
-    tf.flags.DEFINE_string("word2vec_path", None,
+    # "./old_data/glove.6B.100d.txt"
+    # ./old_data/vocabulary.txt
+    tf.flags.DEFINE_string("word2vec_path", "./old_data/glove.6B.100d.txt",
                            "Path to pre-trained Glove vectors")
 
     tf.flags.DEFINE_string("vocab_path", './old_data/vocabulary.txt',
