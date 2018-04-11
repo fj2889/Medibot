@@ -8,8 +8,8 @@ tf.flags.DEFINE_integer(
     3398,
     "The size of the vocabulary. Only change this if you changed the preprocessing")
 # Model Parameters
-tf.flags.DEFINE_integer("embedding_dim", 300,
-                        "Dimensionality of the embeddings")
+'''tf.flags.DEFINE_integer("embedding_dim", 300,
+                        "Dimensionality of the embeddings")'''
 tf.flags.DEFINE_integer("rnn_dim", 256, "Dimensionality of the RNN cell")
 tf.flags.DEFINE_integer("max_context_len", 160,
                         "Truncate contexts to this length")
@@ -31,12 +31,15 @@ tf.flags.DEFINE_boolean("old_data", False,
                         "decide if use the old data")
 if tf.flags.FLAGS.old_data:
     print("using old data/word vector/vocabulary/vocab_processor")
+    tf.flags.DEFINE_integer("embedding_dim", 100,
+                            "Dimensionality of the embeddings")
     # /data文件夹
     tf.flags.DEFINE_string("input_dir", "./old_data",
                            "Directory containing input data files 'train.tfrecords' and 'validation.tfrecords'")
+
     # Pre-trained embeddings
-    # "./old_data/glove.6B.100d.txt"
-    # ./old_data/vocabulary.txt
+    # "./data/glove.6B.100d.txt"
+    # ./data/vocabulary.txt
     tf.flags.DEFINE_string("word2vec_path", "./old_data/glove.6B.100d.txt",
                            "Path to pre-trained Glove vectors")
 
@@ -45,6 +48,8 @@ if tf.flags.FLAGS.old_data:
     tf.flags.DEFINE_string("vocab_processor_file", "./old_data/vocab_processor.bin", "Saved vocabulary processor file")
 else:
     print("using new data/word vector/vocabulary/vocab_processor")
+    tf.flags.DEFINE_integer("embedding_dim", 300,
+                            "Dimensionality of the embeddings")
     # /data文件夹
     tf.flags.DEFINE_string("input_dir", "./data",
                            "Directory containing input data files 'train.tfrecords' and 'validation.tfrecords'")
