@@ -310,6 +310,7 @@ def get_embeddings(hparams):
         glove_vectors, glove_dict = helpers.load_glove_vectors(
             hparams.word2vec_path, vocab=set(vocab_array))
 
+
         initializer = helpers.build_initial_embedding_matrix(
             vocab_dict, glove_dict, glove_vectors, hparams.embedding_dim)
         return tf.get_variable(

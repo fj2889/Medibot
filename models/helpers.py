@@ -3,11 +3,12 @@ import numpy as np
 import tensorflow as tf
 from collections import defaultdict
 import file_process as fp
+import os
 
 
 def load_vocab(filename):
     vocab = None
-    with open(filename) as f:
+    with open(filename,encoding='utf-8') as f:
         vocab = f.read().splitlines()
     dct = defaultdict(int)
     for idx, word in enumerate(vocab):
@@ -20,19 +21,31 @@ def load_glove_vectors(filename, vocab):
     Load glove vectors from a .txt file.
     Optionally limit the vocabulary to save memory. `vocab` should be a set.
     """
+
     dct = {}
     vectors = array.array('d')
     current_idx = 0
-    word2vec = np.load(filename)
 
-    for tokens in word2vec:
-        # tokens = line.split(" ")
-        word = tokens[0]
-        entries = tokens[1:]
-        if not vocab or word in vocab:
-            dct[word] = current_idx
-            vectors.extend(float(x) for x in entries)
-            current_idx += 1
+    if os.path.splitext(filename)[1]=='.pkl':
+        word2vec = np.load(filename)
+        for tokens in word2vec:
+            # tokens = line.split(" ")
+            word = tokens[0]
+            entries = tokens[1:]
+            if not vocab or word in vocab:
+                dct[word] = current_idx
+                vectors.extend(float(x) for x in entries)
+                current_idx += 1
+    elif os.path.splitext(filename)[1]=='.txt':
+        with open(filename, "r", encoding="utf-8") as f:
+            for _, line in enumerate(f):
+                tokens = line.split(" ")
+                word = tokens[0]
+                entries = tokens[1:]
+                if not vocab or word in vocab:
+                    dct[word] = current_idx
+                    vectors.extend(float(x) for x in entries)
+                    current_idx += 1
 
     word_dim = len(entries)
     num_vectors = len(dct)
@@ -53,3 +66,6 @@ def build_initial_embedding_matrix(vocab_dict, glove_dict, glove_vectors, embedd
         initial_embeddings[word_idx, :] = glove_vectors[glove_word_idx]
 
     return initial_embeddings
+
+if __name__ == '__main__':
+    print(textarr)
