@@ -4,6 +4,8 @@ run
 runs/*
 runs/
 runs
+old_data/*
+old_data/
 __pycache__/
 bigdata/
 word2vec/
@@ -13,3 +15,4 @@ word2vec/
 *.data*
 *.loca
 .git.bfg-report/
+*.tfrecords
