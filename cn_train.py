@@ -13,12 +13,8 @@ FLAGS = tf.flags.FLAGS
 
 TIMESTAMP = int(time.time())
 
-#使用老数据
-FLAGS.old_data=True
-
-
-if FLAGS.RNN_model_dir:
-    MODEL_DIR = FLAGS.RNN_model_dir
+if FLAGS.RNN_CNN_MaxPooling_model_dir:
+    MODEL_DIR = FLAGS.RNN_CNN_MaxPooling_model_dir
 else:
     MODEL_DIR = os.path.abspath(os.path.join("./runs", str(TIMESTAMP)))
 
@@ -63,7 +59,7 @@ def main(unused_argv):
         every_n_steps=FLAGS.eval_every,
         metrics=eval_metrics)  # 喂数据
 
-    estimator.fit(input_fn=input_fn_train, steps=None, monitors=[eval_monitor])
+    estimator.fit(input_fn=input_fn_train, steps=2000, monitors=[eval_monitor])
 
 
 if __name__ == "__main__":
