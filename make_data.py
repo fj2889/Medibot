@@ -106,20 +106,33 @@ class Dataset():
         self.train_data = pos_train_data + neg_train_data
 
         # Distractor sequences
-        def map_test_data(_data):
+        def map_test_data(_data, index):
             for i in range(FLAGS.distraction_num):
                 try:
                     dis_key = "distractor_{}".format(i)
                     # Distractor Text Feature
-                    dis_text = map_neg_utterance(i)
+                    # dis_text = map_neg_utterance(i)
+                    distractor_index = np.random.random_integers(
+                        train_data_end, length)+index  # 避免撞上自己
+                    distractor_index = distractor_index % length
+                    dis_text = self.raw_data[distractor_index]['answer']
                     _data[dis_key] = dis_text
                 except Exception as e:
                     print(e)
 
             return _data
+        test_and_dis_data = []
+        for i in range(len(self.test_data)):
+            test_and_dis_data.append(map_test_data(self.test_data[i], i+valid_data_begin))
+        # self.test_data = list(map(map_test_data, self.test_data))
+        self.test_data = test_and_dis_data
 
-        self.test_data = list(map(map_test_data, self.test_data))
-        self.valid_data = list(map(map_test_data, self.valid_data))
+
+        valid_and_dis_data = []
+        for i in range(len(self.valid_data)):
+            valid_and_dis_data.append(map_test_data(self.valid_data[i], i+test_data_begin))
+        # self.valid_data = list(map(map_test_data, self.valid_data))
+        self.valid_data = valid_and_dis_data
 
     def set_stopword(self, files):
         """

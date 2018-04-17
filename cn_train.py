@@ -13,8 +13,8 @@ FLAGS = tf.flags.FLAGS
 
 TIMESTAMP = int(time.time())
 
-if FLAGS.RNN_CNN_MaxPooling_model_dir:
-    MODEL_DIR = FLAGS.RNN_CNN_MaxPooling_model_dir
+if FLAGS.RNN3_model_dir:
+    MODEL_DIR = FLAGS.RNN3_model_dir
 else:
     MODEL_DIR = os.path.abspath(os.path.join("./runs", str(TIMESTAMP)))
 
@@ -31,9 +31,9 @@ def main(unused_argv):
     model_fn = cn_model.create_model_fn(
         hparams,
         model_impl=dual_encoder_model,
-        model_fun=model.RNN_CNN_MaxPooling,
+        model_fun=model.RNN,
         RNNInit=tf.nn.rnn_cell.LSTMCell,
-        is_bidirection=True)
+        is_bidirection=False)
 
     estimator = Estimator(
         model_fn=model_fn,
@@ -59,7 +59,7 @@ def main(unused_argv):
         every_n_steps=FLAGS.eval_every,
         metrics=eval_metrics)  # 喂数据
 
-    estimator.fit(input_fn=input_fn_train, steps=2000, monitors=[eval_monitor])
+    estimator.fit(input_fn=input_fn_train, steps=10000, monitors=[eval_monitor])
 
 
 if __name__ == "__main__":

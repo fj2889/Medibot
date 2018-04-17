@@ -27,7 +27,7 @@ tf.flags.DEFINE_integer("eval_batch_size", 8, "Batch size during evaluation")
 tf.flags.DEFINE_string("optimizer", "Adam",
                        "Optimizer Name (Adam, Adagrad, etc)")
 
-tf.flags.DEFINE_boolean("old_data", True,
+tf.flags.DEFINE_boolean("old_data", False,
                         "decide if use the old data")
 if tf.flags.FLAGS.old_data:
     print("using old data/word vector/vocabulary/vocab_processor")
@@ -40,7 +40,7 @@ if tf.flags.FLAGS.old_data:
     # Pre-trained embeddings
     # "./data/glove.6B.100d.txt"
     # ./data/vocabulary.txt
-    tf.flags.DEFINE_string("word2vec_path", "./old_data/glove.6B.100d.txt",
+    tf.flags.DEFINE_string("word2vec_path", None,
                            "Path to pre-trained Glove vectors")
 
     tf.flags.DEFINE_string("vocab_path", './old_data/vocabulary.txt',
@@ -54,8 +54,8 @@ else:
     tf.flags.DEFINE_string("input_dir", "./data",
                            "Directory containing input data files 'train.tfrecords' and 'validation.tfrecords'")
     #'word2vec/word2vec.npy'
-    tf.flags.DEFINE_string("word2vec_path", None,
-                           "Path to dataset.pkl file")
+    tf.flags.DEFINE_string("word2vec_path", 'word2vec/word2vec.npy',
+                           "Path to word2vec.npy file")
     tf.flags.DEFINE_string("vocab_path", './data/vocabulary.txt',
                            "Path to vocabulary.txt file")
     tf.flags.DEFINE_string("vocab_processor_file", "./data/vocab_processor.bin", "Saved vocabulary processor file")
@@ -64,12 +64,12 @@ tf.flags.DEFINE_string("RNN_CNN_MaxPooling_model_dir", 'runs/RNN_CNN_MaxPooling'
                        "Directory to store model checkpoints (defaults to ./runs)")
 tf.flags.DEFINE_string("RNN_MaxPooling_model_dir", 'runs/RNN_MaxPooling',
                        "Directory to store model checkpoints (defaults to ./runs)")
-tf.flags.DEFINE_string("RNN_model_dir", 'runs/RNN',
+tf.flags.DEFINE_string("RNN3_model_dir", 'runs/RNN3',
                        "Directory to store model checkpoints (defaults to ./runs)")
 tf.flags.DEFINE_integer("loglevel", 20, "Tensorflow log level")
 tf.flags.DEFINE_integer("num_epochs", None,
                         "Number of training Epochs. Defaults to indefinite.")
-tf.flags.DEFINE_integer("eval_every", 10,
+tf.flags.DEFINE_integer("eval_every", 500,
                         "Evaluate after this many train steps")
 
 
