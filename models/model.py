@@ -2,6 +2,29 @@ import tensorflow as tf
 from models import helpers
 FLAGS = tf.flags.FLAGS
 
+
+
+class Model_Parameter(object):
+    def __init__(self,RNN_Init,
+        hparams,
+        context_embedded,
+        context_len,
+        utterance_embedded,
+        utterance_len,
+        is_bidirection=False,
+        input_keep_prob=1.0, output_keep_prob=1.0):
+
+        self.RNN_Init=RNN_Init
+        self.hparams=hparams
+        self.context_embedded=context_embedded
+        self.context_len=context_len
+        self.utterance_embedded=utterance_embedded
+        self.utterance_len=utterance_len
+        self.is_bidirection = is_bidirection
+        self.input_keep_prob = input_keep_prob
+        self.output_keep_prob = output_keep_prob
+
+
 def process_state(states):
     ''''
     输入状态或者每个时间点的状态，处理后砍成两半
@@ -30,71 +53,67 @@ def process_state(states):
     return encoding_context, encoding_utterance
 
 
-def RNN(
-        RNN_Init,
-        hparams,
-        context_embedded,
-        context_len,
-        utterance_embedded,
-        utterance_len,
-        is_bidirection=False):
-    if not issubclass(RNN_Init, tf.nn.rnn_cell.RNNCell):
-        raise ValueError('RNN_Init illegal!!!!!')
+def RNN(model_parameter):
+    if not isinstance(model_parameter,Model_Parameter):
+        raise ValueError('model parameter illegal!')
 
-    if RNN_Init is tf.nn.rnn_cell.LSTMCell:
-        cell_fw = RNN_Init(
-            hparams.rnn_dim,
+    if model_parameter.RNN_Init is tf.nn.rnn_cell.LSTMCell:
+        cell_fw = model_parameter.RNN_Init(
+            model_parameter.hparams.rnn_dim,
             forget_bias=2.0,
             use_peepholes=True,  # 让 门层 也会接受细胞状态的输入
             state_is_tuple=True)
-        if is_bidirection:
-            cell_bw = RNN_Init(
-                num_units=hparams.rnn_dim,
+        if model_parameter.is_bidirection:
+            cell_bw = model_parameter.RNN_Init(
+                num_units=model_parameter.hparams.rnn_dim,
                 forget_bias=2.0,
                 use_peepholes=True,  # 让 门层 也会接受细胞状态的输入
                 state_is_tuple=True)
-    elif RNN_Init is tf.nn.rnn_cell.BasicLSTMCell:
-        cell_fw = RNN_Init(
-            num_units=hparams.rnn_dim,
+    elif model_parameter.RNN_Init is tf.nn.rnn_cell.BasicLSTMCell:
+        cell_fw = model_parameter.RNN_Init(
+            num_units=model_parameter.hparams.rnn_dim,
             forget_bias=2.0,
             state_is_tuple=True)
-        if is_bidirection:
-            cell_bw = RNN_Init(
-                num_units=hparams.rnn_dim,
+        if model_parameter.is_bidirection:
+            cell_bw = model_parameter.RNN_Init(
+                num_units=model_parameter.hparams.rnn_dim,
                 forget_bias=2.0,
                 state_is_tuple=True)
     else:
-        cell_fw = RNN_Init(num_units=hparams.rnn_dim)
-        if is_bidirection:
-            cell_bw = RNN_Init(num_units=hparams.rnn_dim)
+        cell_fw = model_parameter.RNN_Init(num_units=model_parameter.hparams.rnn_dim)
+        if model_parameter.is_bidirection:
+            cell_bw = model_parameter.RNN_Init(num_units=model_parameter.hparams.rnn_dim)
 
-    if not is_bidirection:
+
+    if not model_parameter.is_bidirection:
+        cell_fw=tf.nn.rnn_cell.DropoutWrapper(cell_fw,
+                                              input_keep_prob=model_parameter.input_keep_prob,
+                                              output_keep_prob=model_parameter.output_keep_prob)
         rnn_outputs, rnn_states = tf.nn.dynamic_rnn(
             cell_fw,
-            tf.concat([context_embedded, utterance_embedded], 0),
+            tf.concat([model_parameter.context_embedded, model_parameter.utterance_embedded], 0),
             sequence_length=tf.concat(
-                [context_len, utterance_len], 0),  # 指定长度就不需要padding了
+                [model_parameter.context_len, model_parameter.utterance_len], 0),  # 指定长度就不需要padding了
             dtype=tf.float32)
     else:
+        cell_fw = tf.nn.rnn_cell.DropoutWrapper(cell_fw,
+                                                input_keep_prob=model_parameter.input_keep_prob,
+                                                output_keep_prob=model_parameter.output_keep_prob)
+        cell_bw = tf.nn.rnn_cell.DropoutWrapper(cell_bw,
+                                                input_keep_prob=model_parameter.input_keep_prob,
+                                                output_keep_prob=model_parameter.output_keep_prob)
         rnn_outputs, rnn_states = tf.nn.bidirectional_dynamic_rnn(
             cell_fw=cell_fw,
             cell_bw=cell_bw,
             inputs=tf.concat(
-                [context_embedded, utterance_embedded], 0),
+                [model_parameter.context_embedded, model_parameter.utterance_embedded], 0),
             sequence_length=tf.concat(
-                [context_len, utterance_len], 0),
+                [model_parameter.context_len, model_parameter.utterance_len], 0),
             dtype=tf.float32)
     return rnn_outputs, rnn_states
 
-def RNN_MaxPooling(RNN_Init,
-                   hparams,
-                   context_embedded,
-                   context_len,
-                   utterance_embedded,
-                   utterance_len,
-                   is_bidirection=False):
-    outputs, states = RNN(RNN_Init, hparams, context_embedded,
-                          context_len, utterance_embedded, utterance_len, is_bidirection)
+def RNN_MaxPooling(model_parameter):
+    outputs, states = RNN(model_parameter)
     # OUTPUTS shape:[batch_size,sequence_length,dim]
     if isinstance(outputs, tuple):
         # 双向GRU和LSTM就把前向网络和后向网络连接起来
@@ -116,128 +135,89 @@ def RNN_MaxPooling(RNN_Init,
     #encoding_context, encoding_utterance = process_state(outputs)
     return encoding_context, encoding_utterance
 
+def __conv_pooling(filter_size,num_filters,name,input):
+    input_shape=input.get_shape().as_list()
+    if len(input_shape)!=4:
+        raise ValueError("INPUT illegal!")
 
-def RNN_CNN_MaxPooling(
-        RNN_Init,
-        hparams,
-        context_embedded,
-        context_len,
-        utterance_embedded,
-        utterance_len,
-        BiDirection=False,
-        filtersizes=[2, 3, 4, 5],
-        num_filters=30
+    sequence_length=int(input_shape[1])
+    dim=int(input_shape[2])
+
+    with tf.variable_scope((name+'-conv-maxpool-%s') % filter_size):
+        conv_shape=[filter_size,dim,1,num_filters]
+
+        W=tf.get_variable(name='W',initializer=tf.truncated_normal(conv_shape,stddev=0.1),dtype=tf.float32)
+
+        b = tf.get_variable(name="b", initializer=tf.constant(0.1, shape=[num_filters]))
+        conv = tf.nn.conv2d(
+            input,
+            W,
+            strides=[1, 1, 1, 1],
+            padding='VALID',
+            name=(name+'-conv-%s') % filter_size
+        )  # (128, 159, 1, 30)
+        print('conv_context shape {}'.format(conv.get_shape()))
+        conv= tf.nn.leaky_relu(tf.nn.bias_add(conv, b), name=(name+'-conv-maxpool-%s') % filter_size)#!!!!!
+
+        pool = tf.nn.max_pool(
+            conv,
+            ksize=[1, sequence_length-filter_size+1, 1, 1],
+            strides=[1, 1, 1, 1],
+            padding='VALID',
+            name=(name+'-pool-%s') % filter_size
+        )  # (128, 1, 1, 30)
+        print('pool_context shape {}'.format(pool.get_shape()))
+    return pool
+
+
+
+import functools
+def RNN_CNN_MaxPooling(model_parameter,
+        filtersizes=[2,3,4,5],
+        num_filters=100
 ):
-    outputs, states = RNN(RNN_Init, hparams, context_embedded,
-                          context_len, utterance_embedded, utterance_len, BiDirection)
+    outputs, states = RNN(model_parameter)
     # print('outputs shape {}'.format(outputs.get_shape()))
     if isinstance(outputs, tuple):
         # 双向GRU和LSTM就把前向网络和后向网络连接起来
         outputs = tf.concat([outputs[0], outputs[1]], axis=-1)
     print(outputs.get_shape())
     # 增加通道维度  shape:[batch_size,sequence_length,dim,1]
-    outputs = tf.expand_dims(outputs, -1)
-    print('outputs_expand shape {}'.format(outputs.get_shape()))
+
     outputs_context, outputs_utterance = tf.split(
         outputs, 2, 0)  # 分别为context和utterence
     print('outputs_context shape {}'.format(outputs_context.get_shape()))
     print('outputs_utterance shape {}'.format(outputs_utterance.get_shape()))
 
-    def map_filter(filter_size):
-        with tf.variable_scope('conv-maxpool-%s' % filter_size):
-            filter_context_shape = [
-                filter_size,
-                int(outputs_context.get_shape()[2]),
-                1,
-                num_filters]
-            W_context = tf.get_variable(
-                name="W_context",
-                initializer=tf.truncated_normal(
-                    filter_context_shape, stddev=0.1),
-                dtype=tf.float32
-            )
-            b_context = tf.get_variable(
-                name="b_context", initializer=tf.constant(0.1, shape=[num_filters]))
-            conv_context = tf.nn.conv2d(
-                outputs_context,
-                W_context,
-                strides=[1, 1, 1, 1],
-                padding='VALID',
-                name='conv-context'
-            )  # (128, 159, 1, 30)
-            print('conv_context shape {}'.format(conv_context.get_shape()))
-            h_context = tf.nn.relu(tf.nn.bias_add(
-                conv_context, b_context), name='h_context')
-            pooled_context = tf.nn.max_pool(
-                h_context,
-                ksize=[1, h_context.get_shape()[1], 1, 1],
-                strides=[1, 1, 1, 1],
-                padding='VALID',
-                name='pool_context'
-            )  # (128, 1, 1, 30)
-            print('pool_context shape {}'.format(pooled_context.get_shape()))
-            # pooled_context_list.append(pooled_context)
+    # outputs_context=model_parameter.context_embedded
+    # outputs_utterance=model_parameter.utterance_embedded
 
-            filter_utterance_shape = [
-                filter_size,
-                int(outputs_utterance.get_shape()[2]),
-                1,
-                num_filters
-            ]
-            W_utterance = tf.get_variable(
-                name="W_utterance",
-                initializer=tf.truncated_normal(
-                    filter_utterance_shape, stddev=0.1)
-            )
-            b_utterance = tf.get_variable(
-                name="b_utterance", initializer=tf.constant(0.1, shape=[num_filters]))
-            conv_utterance = tf.nn.conv2d(
-                outputs_utterance,
-                W_utterance,
-                strides=[1, 1, 1, 1],
-                padding='VALID',
-                name='conv-utterance'
-            )
-            print('conv_utterance shape {}'.format(conv_utterance.get_shape()))
-            h_utterance = tf.nn.relu(tf.nn.bias_add(
-                conv_utterance, b_utterance), name='h_utterance')
-            pooled_utterance = tf.nn.max_pool(
-                h_utterance,
-                ksize=[1, h_utterance.get_shape()[1], 1, 1],
-                strides=[1, 1, 1, 1],
-                padding='VALID',
-                name='pool_utterance'
-            )  # batch_size,1,1,num_filters
-            print('pooled_utterance shape {}'.format(
-                pooled_utterance.get_shape()))
-            # pooled_utterance_list.append(pooled_utterance)
-        return [pooled_context, pooled_utterance]
+    outputs_context=tf.expand_dims(outputs_context,[-1])
 
-    _list = list(map(map_filter, filtersizes))
-
-    pooled_context_list = [x[0] for x in _list]
-    pooled_utterance_list = [x[1] for x in _list]
+    __context_conv_fun=functools.partial(__conv_pooling,name='context',
+                                         input=outputs_context,num_filters=num_filters)
+    pooled_context_list = list(map(__context_conv_fun, filtersizes))
     encoding_context = tf.concat(pooled_context_list, 3)
-    encoding_utterance = tf.concat(pooled_utterance_list, 3)
-    print('concact_context shape {}'.format(encoding_context.get_shape()))
     encoding_context = tf.reshape(
         encoding_context, shape=[-1, num_filters * len(filtersizes)])
+
+    #outputs_utterance=__attention(ha=outputs_utterance,oq=encoding_context)
+
+    outputs_utterance = tf.expand_dims(outputs_utterance, [-1])
+    __utterance_conv_fun = functools.partial(__conv_pooling, name='utterance',
+                                           input=outputs_utterance, num_filters=num_filters)
+    pooled_utterance_list = list(map(__utterance_conv_fun,filtersizes))
+    encoding_utterance = tf.concat(pooled_utterance_list, 3)
     encoding_utterance = tf.reshape(
         encoding_utterance, shape=[-1, num_filters * len(filtersizes)])
+
     print('reshape_context shape {}'.format(encoding_context.get_shape()))
     print('reshape_utterence shape {}'.format(encoding_utterance.get_shape()))
     return encoding_context, encoding_utterance
 
 
-def RNN_Attention(RNN_Init,
-                  hparams,
-                  context_embedded,
-                  context_len,
-                  utterance_embedded,
-                  utterance_len,
-                  BiDirection=False):
-    outputs, states = RNN(RNN_Init, hparams, context_embedded, context_len, utterance_embedded, utterance_len,
-                          BiDirection)  # OUTPUTS shape:[batch_size,sequence_length,dim]
+def RNN_Attention(model_parameter):
+    outputs, states = RNN(model_parameter)  # OUTPUTS shape:[batch_size,sequence_length,dim]
     if isinstance(outputs, tuple):
         # 双向GRU和LSTM就把前向网络和后向网络连接起来
         outputs = tf.concat([outputs[0], outputs[1]], axis=-1)
@@ -250,62 +230,61 @@ def RNN_Attention(RNN_Init,
                                          1], 1, 1],
                                      strides=[1, 1, 1, 1],
                                      padding='VALID')  # [batch_size,1,dim,1]
-    outputs_context = tf.squeeze(outputs_context, axis=[3])  # 删除通道维度
+    outputs_context = tf.squeeze(outputs_context, axis=[1,3])  # 删除通道维度
+
+    outputs_utterance=__attention(outputs_utterance,outputs_context)
+
+    outputs_utterance=tf.expand_dims(outputs_utterance,[-1])
+    outputs_utterance = tf.nn.max_pool(outputs_utterance,
+                                       ksize=[1, outputs_utterance.get_shape()[
+                                           1], 1, 1],
+                                       strides=[1, 1, 1, 1],
+                                       padding='VALID')  # [batch_size,1,dim,1]
+
+    outputs_utterance = tf.squeeze(outputs_utterance,axis=[1,3])
+    return outputs_context, outputs_utterance
+
+
+def __attention(ha,oq):
+    '''
+
+    :param ha: shape->(batch,t,dim)
+    :param oq:shape->(batch,dim)
+    :return:
+    '''
+    sequence_length = int(ha.get_shape()[1])
+    dim_ha = int(ha.get_shape()[-1])
+    dim_oq=int(oq.get_shape()[-1])
+
     with tf.variable_scope('attention'):
         Wam = tf.get_variable(name='Wam',
-                              shape=[outputs_utterance.get_shape()[2], 1],
+                              shape=[dim_ha, 1],
                               initializer=tf.truncated_normal_initializer(stddev=0.1))  # wam*ht->batch,1
         Wqm = tf.get_variable(name='Wqm',
-                              shape=[outputs_context.get_shape()[2], 1],
+                              shape=[dim_oq, 1],
                               initializer=tf.truncated_normal_initializer(stddev=0.1))  # oq*wqm->batch,1
-        Wam_stack_batch = tf.reshape(
-            tf.tile(Wam, [int(outputs_utterance.get_shape()[0]), 1]),
-            shape=[
-                -1,
-                int(Wam.get_shape()[0]),
-                int(Wam.get_shape()[1])
-            ])
-        Wqm_stack_batch = tf.reshape(
-            tf.tile(Wqm, [int(outputs_context.get_shape()[0]), 1]),
-            shape=[
-                -1,
-                int(Wqm.get_shape()[0]),
-                int(Wqm.get_shape()[1])
-            ])
-        utterance_Mat = tf.matmul(
-            outputs_utterance, Wam_stack_batch)  # (128, 160, 1)
-        print("answer_mat:{}".format(utterance_Mat.get_shape()))
-        utterance_Mat = tf.squeeze(utterance_Mat, [2])  # (128, 160)
-        print("answer_mat:{}".format(utterance_Mat.get_shape()))
-        context_Mat = tf.matmul(outputs_context, Wqm_stack_batch)
-        print("context_mat:{}".format(context_Mat.get_shape()))
-        context_Mat = tf.squeeze(context_Mat, [2])
-        print("context_mat:{}".format(context_Mat.get_shape()))
-        maq = tf.nn.tanh(utterance_Mat + context_Mat)
-        print("maq:{}".format(maq.get_shape()))
+        oq_Mat = tf.matmul(oq, Wqm)
+
+        ha=tf.reshape(ha, [-1, dim_ha])
+        ha_Mat=tf.matmul(ha,Wam)
+        ha_Mat=tf.reshape(ha_Mat,[-1,sequence_length])
+
+        b = tf.get_variable(name="attention_bias", initializer=tf.constant(0.1))
+        maq=tf.nn.leaky_relu(ha_Mat+oq_Mat+b)#!!!!!
 
         Wms = tf.get_variable(name='Wms',
-                              shape=[outputs_utterance.get_shape(
-                              )[1], outputs_utterance.get_shape()[1]],
+                              shape=[sequence_length, sequence_length],
                               initializer=tf.truncated_normal_initializer(
-                                  stddev=0.1)
-                              )
+                                  stddev=0.1))
+
         saq = tf.nn.softmax(tf.matmul(maq, Wms))  # saq:(128, 160)
-        print("saq:{}".format(saq.get_shape()))
-        # element-wise
-        outputs_utterance = tf.matmul(tf.reshape(
-            saq, [-1, 1, int(saq.get_shape()[1])]), outputs_utterance)
-        outputs_utterance = tf.expand_dims(outputs_utterance, [-1])
-        outputs_utterance = tf.nn.max_pool(outputs_utterance,
-                                           ksize=[1, outputs_utterance.get_shape()[
-                                               1], 1, 1],
-                                           strides=[1, 1, 1, 1],
-                                           padding='VALID')  # [batch_size,1,dim,1]
-        outputs_utterance = tf.squeeze(outputs_utterance)
-        outputs_context = tf.squeeze(outputs_context)
-        return outputs_context, outputs_utterance
 
 
+        saq = tf.reshape(saq, shape=[-1, 1])
+        ha = ha * saq
+
+        ha=tf.reshape(ha,[-1,sequence_length,dim_ha])
+    return ha
 
 
 def get_embeddings(hparams):
@@ -343,14 +322,12 @@ def dual_encoder_model(
         utterance_len,
         targets,
         model_fun,
-        RNNInit=tf.nn.rnn_cell.LSTMCell,
-        is_bidirection=False):  # 默认单向
+        RNN_Init,
+        is_bidirection=False,
+        input_keep_prob=1.0,
+        output_keep_prob=1.0):  # 默认单向
 
-    print("input context shape{}".format(context.get_shape()))
-    print("input utterance shape{}".format(utterance.get_shape()))
-    print("input context_len shape{}".format(context_len.get_shape()))
-    print("input utterance_len shape{}".format(utterance_len.get_shape()))
-    print("error targets shape{}:".format(targets.get_shape()))
+
     # Initialize embedidngs randomly or with pre-trained vectors if available
     embeddings_W = get_embeddings(hparams)
     print('context shape {}'.format(context))  # 顺便显示shape
@@ -363,23 +340,22 @@ def dual_encoder_model(
     print('context_embedded shape {}'.format(context_embedded.get_shape()))
     print('utterence_embedded shape {}'.format(utterance_embedded.get_shape()))
 
+    model_parameter=Model_Parameter(RNN_Init=RNN_Init,
+                                    hparams=hparams,
+                                    context_embedded=context_embedded,
+                                    context_len=context_len,
+                                    utterance_embedded=utterance_embedded,
+                                    utterance_len=utterance_len,
+                                    is_bidirection=is_bidirection,
+                                    input_keep_prob=input_keep_prob,
+                                    output_keep_prob=output_keep_prob)
+    print(type(model_parameter))
     if model_fun is RNN:
-        outputs, states = RNN(RNNInit,
-                                    hparams,
-                                    context_embedded,
-                                    context_len,
-                                    utterance_embedded,
-                                    utterance_len,
-                                    is_bidirection)
+        outputs, states = RNN(model_parameter)
         encoding_context, encoding_utterance = process_state(states)
-    elif model_fun in set([RNN_MaxPooling, RNN_CNN_MaxPooling, RNN_CNN_MaxPooling, RNN_Attention]):
-        encoding_context, encoding_utterance = model_fun(RNNInit,
-                                                         hparams,
-                                                         context_embedded,
-                                                         context_len,
-                                                         utterance_embedded,
-                                                         utterance_len,
-                                                         is_bidirection)
+    elif model_fun in set([RNN_MaxPooling, RNN_CNN_MaxPooling, RNN_CNN_MaxPooling, RNN_Attention])\
+            or model_fun.func is RNN_CNN_MaxPooling:
+        encoding_context, encoding_utterance = model_fun(model_parameter)
     else:
         raise ValueError('model_fun illegal!!!!!!')
     print('encoding_context type {}'.format(type(encoding_context)))
@@ -395,6 +371,11 @@ def dual_encoder_model(
         # "Predict" a  response: c * M
         generated_response = tf.matmul(encoding_context, M)
         print('c*M {}'.format((generated_response.get_shape())))
+
+        #计算范数
+        generated_response_norm=tf.sqrt(tf.reduce_sum(tf.square(generated_response),1))
+        encoding_utterance_norm = tf.sqrt(tf.reduce_sum(tf.square(encoding_utterance), 1))
+
         generated_response = tf.expand_dims(
             generated_response, 2)  # 增加了第三个维度？？
         # 增加维度是为了让每个batch分开做乘积，也就是乘积只做用在后面两个维度
@@ -405,16 +386,20 @@ def dual_encoder_model(
         # (c * M) * r
         logits = tf.matmul(generated_response,
                            encoding_utterance, True)  # 维度匹配
+
+        #logits=tf.divide(logits,)#
         print('logits shape {}'.format(logits))
         logits = tf.squeeze(logits, [2])  # 删除第三个维度?
+
+        norm_mul = tf.expand_dims(tf.multiply(generated_response_norm, encoding_utterance_norm),1)
+        print('norm{}'.format(norm_mul.get_shape()))
+        logits = tf.divide(logits,norm_mul )
+
         print('squeeze logits shape {}'.format(logits.get_shape()))
         # Apply sigmoid to convert logits to probabilities
         probs = tf.sigmoid(logits)#没有问题，是sigmoid不是softmax
-
         if mode == tf.contrib.learn.ModeKeys.INFER:
             return probs, None
-
-
         print("error logits shape{}:".format(logits.get_shape()))
         print("error targets shape{}:".format(targets.get_shape()))
         # Calculate the binary cross-entropy loss
@@ -423,4 +408,5 @@ def dual_encoder_model(
 
     # Mean loss across the batch of examples
     mean_loss = tf.reduce_mean(losses, name="mean_loss")
-    return probs, mean_loss
+    #return probs, mean_loss
+    return logits, mean_loss

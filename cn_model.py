@@ -21,7 +21,10 @@ def create_train_op(loss, hparams):
 
 def create_model_fn(hparams, model_impl, model_fun,
                     RNNInit,
-                    is_bidirection=False):
+                    is_bidirection=False,
+                    input_keep_prob=1.0,
+                    output_keep_prob=1.0
+                    ):
 
     def model_fn(features, targets, mode):  # estimator自己传的参数
         context, context_len = get_id_feature(
@@ -44,7 +47,10 @@ def create_model_fn(hparams, model_impl, model_fun,
                 targets,
                 model_fun,
                 RNNInit,
-                is_bidirection)
+                is_bidirection,
+                input_keep_prob,
+                output_keep_prob
+            )
             train_op = create_train_op(loss, hparams)
             return probs, loss, train_op
 
@@ -58,7 +64,10 @@ def create_model_fn(hparams, model_impl, model_fun,
                 utterance_len,
                 None, model_fun,
                 RNNInit,
-                is_bidirection)
+                is_bidirection,
+                input_keep_prob=1.0,
+                output_keep_prob=1.0
+            )
             return probs, 0.0, None
 
         if mode == tf.contrib.learn.ModeKeys.EVAL:
@@ -97,6 +106,7 @@ def create_model_fn(hparams, model_impl, model_fun,
                 tf.concat(all_targets, 0), model_fun,
                 RNNInit,
                 is_bidirection)
+
 
             split_probs = tf.split(probs, 10, 0)
             shaped_probs = tf.concat(split_probs, 1)

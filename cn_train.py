@@ -33,7 +33,10 @@ def main(unused_argv):
         model_impl=dual_encoder_model,
         model_fun=model.RNN,
         RNNInit=tf.nn.rnn_cell.LSTMCell,
-        is_bidirection=False)
+        is_bidirection=False,
+        input_keep_prob=1.0,
+        output_keep_prob=1.0
+    )
 
     estimator = Estimator(
         model_fn=model_fn,
